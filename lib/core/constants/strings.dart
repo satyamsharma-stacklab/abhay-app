@@ -1,0 +1,47 @@
+/// Saara default text Hinglish mein. Baad mein English/Hindi toggle yahin se add hoga.
+class AppStrings {
+  AppStrings._();
+
+  static const appName = 'ABHAY';
+  static const tagline = 'See. Think. Solve.';
+
+  // Bottom navigation
+  static const navHome = 'Home';
+  static const navRoadmap = 'Roadmap';
+  static const navVisualize = 'Visualize';
+  static const navContest = 'Contest';
+  static const navProfile = 'Profile';
+
+  // Home
+  static const homeContinue = 'Seekhna jaari rakho';
+  static const homeGoal = 'Aaj ka goal';
+  static const homeUpcomingContest = 'Aane wala contest';
+  static const homeWeakTopics = 'Kamzor topics';
+  static const homeNoWeakTopics = 'Abhi koi kamzor topic nahi. Bas aise hi chalte raho!';
+  static const homeStartVisualization = 'Visualization dekho';
+
+  // Roadmap
+  static const roadmapTitle = 'DSA Roadmap';
+  static const roadmapSubtitle = 'Ek-ek step karke aage badho.';
+  static const statusCompleted = 'Complete';
+  static const statusUnlocked = 'Khula hai';
+  static const statusLocked = 'Locked';
+  static const comingSoon = 'Jald aa raha hai';
+
+  // Visualize
+  static const visualizeTitle = 'Visualize karo';
+  static const visualizeIntro =
+      'Algorithm ko chalta hua dekho, samjho, phir ek chhota sa sawaal solve karo.';
+
+  // Contest
+  static const contestUpcoming = 'Upcoming';
+  static const contestLive = 'Live';
+  static const contestCompleted = 'Completed';
+  static const contestEmpty = 'Abhi yahan koi contest nahi hai.';
+
+  // Profile
+  static const profileDarkMode = 'Dark mode';
+  static const profileBadges = 'Badges';
+  static const profileCompletedTopics = 'Complete kiye topics';
+  static const profileNoCompleted = 'Abhi koi topic complete nahi hua.';
+}
