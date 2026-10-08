@@ -1,17 +1,28 @@
-# abhay
+# ABHAY — See. Think. Solve.
 
-A new Flutter project.
+Visual DSA learning & contest platform (Hinglish-first). Student algorithm ko **chalta hua dekhta hai**, phir **ek checkpoint sawaal** solve karta hai.
 
-## Getting Started
+## Stack
+- Flutter (Android-first)
+- Node.js + Express + MongoDB (planned, Part 9+)
 
-This project is a starting point for a Flutter application.
+## Current status
+- [x] Part 1: Environment setup (Flutter 3.47.6, Android SDK)
+- [x] Part 2: Flutter foundation (theme, routing, 5-tab nav, mock data, tests)
+- [ ] Part 3: Visualization engine core  <- next
+- [ ] Parts 4-15: see `docs/ROADMAP.md`
 
-A few resources to get you started if this is your first Flutter project:
+## Run
+```bash
+flutter pub get
+flutter analyze
+flutter test
+flutter run -d chrome     # quick check
+flutter run               # Android device/emulator
+```
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Docs
+- `docs/PROGRESS.md`  - ab tak kya hua
+- `docs/NEXT_TASK.md` - agla kaam
+- `docs/ROADMAP.md`   - poora roadmap
+- `docs/SETUP_NOTES.md` - dev environment notes
