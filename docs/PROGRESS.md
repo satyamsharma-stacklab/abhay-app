@@ -19,6 +19,16 @@
 - App Chrome mein chali (`flutter run -d chrome`)
 - Git tag: `phase-1-ui-ready`
 
+### Part 3 — Visualization Engine Core (DONE)
+- Models: VisualizationState, VisualizationStep, Checkpoint, Visualization (+ Complexity)
+- VisualizationController: play, pause, next, previous, restart, setSpeed (0.25x-4x), currentStep, isFinished, isAtStart
+- AlgorithmGenerator abstract interface (deterministic steps)
+- Files: lib/features/visualization/engine/ (6 files)
+- Tests: test/visualization/ (checkpoint 3, controller 13, FakeGenerator ke saath)
+- `flutter analyze`: No issues found
+- `flutter test`: +23 All tests passed
+- Git tag: `phase-2a-engine-core` (commit 1afce12)
+
 ## Pending (chhote items)
 - [ ] Android emulator/phone par app chalana
 - [ ] `flutter build apk --debug` (debug APK banana)
@@ -26,5 +36,7 @@
 - [ ] Part 2 ke 3 manual checks: Roadmap labels, Dark mode switch, Home button -> Visualize tab
 
 ## Known notes
+- Checkpoint ke const constructor mein options.length use nahi ho sakta, isliye upper-bound range check test mein hota hai.
+- git add -A mat karna: linux/macos/windows ki generated_plugin files auto-modify hoti hain. Specific paths add karo.
 - Part 2 code Claude ke sandbox mein compile nahi hua tha; aapke laptop par analyze + test pass hua, to ab verified hai.
 - Project hamesha `C:\dev` mein rakho, OneDrive mein nahi.

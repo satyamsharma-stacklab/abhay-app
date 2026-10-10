@@ -1,36 +1,26 @@
-# Agla Task: Part 3 — Visualization Engine Core
+# Agla Task: Part 4 — Visualization Widgets
 
-**Goal:** Pure Dart logic banana: steps ki list, aur play/pause/next/previous/restart/speed wala controller. **Abhi koi UI nahi.**
-**Estimated time:** 1-2 hours  |  **Git tag at end:** `phase-2a-engine-core`
+**Goal:** Reusable UI widgets banana jo Part 3 ke engine ko screen par dikhaye. Abhi koi specific algorithm nahi.
+**Git tag at end:** `phase-2b-viz-widgets`
 
-## Kyun ye pehle?
-Visualization ABHAY ka sabse bada feature hai. Agar engine algorithm-agnostic (kisi algorithm se bandha hua nahi) banega, to Binary Search, Sorting, sab usi par chalenge. Logic pehle banake tests se pakka karte hain, phir UI (Part 4) uske upar lagti hai.
-
-## Kya banega (`lib/features/visualization/` mein)
-1. `Visualization` model: id, algorithmId, title, initialState, steps[], checkpoint, complexity
-2. `VisualizationStep`: index, state, operation, explanationHinglish, codeLine, highlights, durationMs
-3. `VisualizationState`: array, pointers (LOW/MID/HIGH), highlighted indices, labels
-4. `VisualizationController`: play, pause, next, previous, restart, setSpeed, currentStep, isFinished
-5. `AlgorithmGenerator` (abstract): deterministic steps banata hai
-6. `Checkpoint` model + answer checking (pure Dart)
+## Kya banega (`lib/features/visualization/widgets/` mein)
+1. `ArrayVisualizer`: array ke boxes, highlight aur labels
+2. `PointerMarker`: LOW / MID / HIGH jaise pointers index ke upar
+3. `CodePanel`: code lines, current codeLine highlight
+4. `ExplanationBox`: Hinglish explanation text
+5. `ControlsBar`: play, pause, next, previous, restart, speed
+6. `VisualizationPlayer`: sab ko jodke ek screen (VisualizationController use karta hai)
 
 ## Rules
-- Controller koi bhi specific algorithm nahi jaanta
-- Har step deterministic hona chahiye
-- Unit tests: next/prev bounds, restart, finish, answer checking
-
-## Kaise shuru karna hai
-Claude chat mein bolo: **"Part 3 shuru karo"** (ya `03_Viz_Engine_Core.zip` ke `01_CORE_CONTEXT.md` + `02_PROMPT.md` do).
+- Widgets sirf VisualizationState/Step render karte hain, algorithm nahi jaante
+- Colour ke saath icon/label bhi (sirf colour par depend nahi)
+- Text Hinglish, lib/core/constants/strings.dart mein
+- Widget tests likhna
 
 ## Done kab maanenge
-- [ ] Models + controller bane
-- [ ] Controller kisi algorithm ko hard-code nahi karta
-- [ ] Next/Previous bounds sahi
+- [ ] Widgets bane, FakeGenerator jaise sample data se dikhte hain
 - [ ] `flutter analyze` + `flutter test` pass
-- [ ] `git tag phase-2a-engine-core` + `git push --tags`
+- [ ] `git tag phase-2b-viz-widgets` + push
 
 ## Uske baad
-Part 4 (widgets: ArrayVisualizer, pointers, code panel, controls) -> Part 5 (Binary Search + checkpoint).
-
-## Optional pehle (agar time ho)
-Android par app chalao + `flutter build apk --debug` (Part 1 band karne ke liye).
+Part 5: Binary Search + checkpoint question (MVP-A complete).
