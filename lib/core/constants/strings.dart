@@ -71,4 +71,7 @@ class AppStrings {
   static const bsWrong = 'Galat, phir se socho.';
   static const bsCheckpointTitle = 'Checkpoint sawaal';
   static const bsFinishHint = 'Visualization khatam. Ab sawaal solve karo.';
+
+  // Visualize list
+  static const vizOpen = 'Dekho';
 }

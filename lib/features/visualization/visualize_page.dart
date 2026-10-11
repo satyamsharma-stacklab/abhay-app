@@ -4,10 +4,23 @@ import '../../core/constants/strings.dart';
 import '../../core/mock/mock_data.dart';
 import '../../shared/widgets/abhay_card.dart';
 import '../../shared/widgets/section_header.dart';
+import '../algorithms/binary_search/binary_search_page.dart';
 
-/// Abhi sirf list dikhati hai. Asli visualization engine Part 3-5 mein judega.
+/// Playable topics ki list. Jo algorithm ready hai wo khulta hai,
+/// baaki par "Jald aa raha hai" dikhta hai.
 class VisualizePage extends StatelessWidget {
   const VisualizePage({super.key});
+
+  /// Abhi sirf Binary Search ready hai.
+  static const _readyIds = {'binary-search'};
+
+  void _open(BuildContext context, String id) {
+    if (id == 'binary-search') {
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(builder: (_) => const BinarySearchPage()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +31,10 @@ class VisualizePage extends StatelessWidget {
       key: const Key('page-visualize'),
       padding: const EdgeInsets.all(16),
       children: [
-        const SectionHeader(AppStrings.visualizeTitle, subtitle: AppStrings.visualizeIntro),
+        const SectionHeader(
+          AppStrings.visualizeTitle,
+          subtitle: AppStrings.visualizeIntro,
+        ),
         for (final t in items)
           AbhayCard(
             child: Row(
@@ -26,12 +42,21 @@ class VisualizePage extends StatelessWidget {
                 const Icon(Icons.play_circle_outline, size: 32),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: Text(t.title,
-                      style: theme.textTheme.titleMedium
-                          ?.copyWith(fontWeight: FontWeight.w700)),
+                  child: Text(
+                    t.title,
+                    style: theme.textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w700),
+                  ),
                 ),
                 const SizedBox(width: 8),
-                const Chip(label: Text(AppStrings.comingSoon)),
+                if (_readyIds.contains(t.id))
+                  FilledButton(
+                    key: Key('open-${t.id}'),
+                    onPressed: () => _open(context, t.id),
+                    child: const Text(AppStrings.vizOpen),
+                  )
+                else
+                  const Chip(label: Text(AppStrings.comingSoon)),
               ],
             ),
           ),
