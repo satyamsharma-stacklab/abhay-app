@@ -63,4 +63,12 @@ class AppStrings {
   static const ctrlPrevious = 'Peeche';
   static const ctrlRestart = 'Restart';
   static const ctrlSpeed = 'Speed';
+
+  // Binary Search page
+  static const bsTarget = 'Target';
+  static const bsSubmit = 'Jawab do';
+  static const bsCorrect = 'Sahi jawab!';
+  static const bsWrong = 'Galat, phir se socho.';
+  static const bsCheckpointTitle = 'Checkpoint sawaal';
+  static const bsFinishHint = 'Visualization khatam. Ab sawaal solve karo.';
 }
