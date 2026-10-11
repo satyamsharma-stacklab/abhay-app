@@ -51,4 +51,8 @@ class AppStrings {
   static const vizIndex = 'Index';
   static const vizHighlighted = 'Highlight';
   static const vizActive = 'Active';
+  static const codeTitle = 'Code';
+  static const explainTitle = 'Samjho';
+  static const explainEmpty =
+      'Play ya Next dabao, step yahan samjhaya jayega.';
 }
