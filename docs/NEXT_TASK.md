@@ -1,26 +1,33 @@
-# Agla Task: Part 4 — Visualization Widgets
+# Agla Task: Part 5 — Binary Search + Checkpoint (MVP-A)
 
-**Goal:** Reusable UI widgets banana jo Part 3 ke engine ko screen par dikhaye. Abhi koi specific algorithm nahi.
-**Git tag at end:** `phase-2b-viz-widgets`
+**Goal:** Pehla asli algorithm: Binary Search ki visualization, Part 4 ke player par chalti hui, aur end mein exactly ek checkpoint question.
+**Git tag at end:** `phase-3a-binary-search`
 
-## Kya banega (`lib/features/visualization/widgets/` mein)
-1. `ArrayVisualizer`: array ke boxes, highlight aur labels
-2. `PointerMarker`: LOW / MID / HIGH jaise pointers index ke upar
-3. `CodePanel`: code lines, current codeLine highlight
-4. `ExplanationBox`: Hinglish explanation text
-5. `ControlsBar`: play, pause, next, previous, restart, speed
-6. `VisualizationPlayer`: sab ko jodke ek screen (VisualizationController use karta hai)
+## Kya banega
+1. `BinarySearchGenerator` (implements `AlgorithmGenerator`), `lib/features/algorithms/binary_search/`
+   - Steps: LOW/MID/HIGH pointers, compare, left/right half discard, found / not found
+   - Har step ka Hinglish explanation, codeLine mapping
+2. Binary Search ka code text (CodePanel ke liye lines)
+3. Checkpoint question (Hinglish, sirf 1)
+4. Ek page jo input array + target leke `VisualizationPlayer` dikhaye, end par checkpoint
+5. `visualize_page.dart` mein Binary Search ko playable banana
+6. Unit tests: generator deterministic, found / not found / single element / empty
 
 ## Rules
-- Widgets sirf VisualizationState/Step render karte hain, algorithm nahi jaante
-- Colour ke saath icon/label bhi (sirf colour par depend nahi)
-- Text Hinglish, lib/core/constants/strings.dart mein
-- Widget tests likhna
+- Generator sirf steps banata hai, UI nahi jaanta
+- Same input -> same steps
+- Text Hinglish, `lib/core/constants/strings.dart` mein
 
 ## Done kab maanenge
-- [ ] Widgets bane, FakeGenerator jaise sample data se dikhte hain
+- [ ] Binary Search app mein chalta hai (Visualize tab se)
+- [ ] Checkpoint answer check + feedback dikhta hai
 - [ ] `flutter analyze` + `flutter test` pass
-- [ ] `git tag phase-2b-viz-widgets` + push
+- [ ] `git tag phase-3a-binary-search` + push
+
+## Chhote sessions mein
+1. `BinarySearchGenerator` + tests
+2. Binary Search page + checkpoint UI
+3. Visualize tab se jodna
 
 ## Uske baad
-Part 5: Binary Search + checkpoint question (MVP-A complete).
+Part 6: Linear Search.

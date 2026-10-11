@@ -8,52 +8,46 @@ Instead of reading theory, the student **watches an algorithm run step by step**
 
 ---
 
-## Current status (10-10-2026)
+## Current status (11-10-2026)
 
 | Part | What | Status |
 |---|---|---|
 | 1 | Environment setup (Flutter, Android SDK) | Done (Android device run + debug APK pending) |
 | 2 | Flutter foundation (theme, routing, 5-tab navigation, mock data) | **Done** (tag `phase-1-ui-ready`) |
-| 3 | Visualization engine core (models, controller, generator interface, 23 tests) | **Done** (tag `phase-2a-engine-core`) |
-| 4 | Visualization widgets | **Next** |
-| 5-15 | Binary Search, algorithms, progress, backend, practice, contests, release | Planned |
+| 3 | Visualization engine core (models, controller, generator interface) | **Done** (tag `phase-2a-engine-core`) |
+| 4 | Visualization widgets (6 widgets, 49 tests) | **Done** (tag `phase-2b-viz-widgets`) |
+| 5 | Binary Search + checkpoint (MVP-A) | **Next** |
+| 6-15 | More algorithms, progress, backend, practice, contests, release | Planned |
 
 ### What has been done
 - Flutter 3.47.6 and Android Studio / Android SDK set up on Windows.
-- Flutter app created (`com.abhay.abhay`) with a clean folder structure: `app`, `core`, `features`, `shared`.
-- Light and dark theme (Material 3), routing, and a 5-tab bottom navigation: **Home, Roadmap, Visualize, Contest, Profile**.
-- Reusable widgets: `AbhayCard`, `AbhayButton`, `SectionHeader`, `StatChip`.
-- Screens built with mock data:
-  - **Home:** streak, XP, daily goal, continue-learning card, upcoming contest, weak topics.
-  - **Roadmap:** 18 DSA topics with locked / unlocked / completed states (icon + label, not colour alone).
-  - **Visualize:** list of algorithms (visualizations coming in Parts 4-5).
-  - **Contest:** Upcoming / Live / Completed tabs.
-  - **Profile:** XP, streak, badges, completed topics, dark-mode switch.
+- Flutter app (`com.abhay.abhay`) with folders: `app`, `core`, `features`, `shared`.
+- Light and dark theme (Material 3), routing, 5-tab bottom navigation: **Home, Roadmap, Visualize, Contest, Profile**.
+- Screens with mock data: Home, Roadmap (18 topics), Visualize (list), Contest, Profile.
 - All default text is Hinglish and lives in one file (`lib/core/constants/strings.dart`).
-- **Visualization engine core (Part 3)**, pure Dart, no UI, in `lib/features/visualization/engine/`:
-  - Models: `VisualizationState`, `VisualizationStep`, `Checkpoint` (with answer checking), `Visualization` (+ `Complexity`).
-  - `VisualizationController`: play, pause, next, previous, restart, speed (0.25x to 4x).
-  - `AlgorithmGenerator`: abstract interface for deterministic step generation.
-- 23 automated tests, all passing (navigation, dark mode, roadmap labels, daily goal, checkpoint, controller).
-- Git tags: `phase-1-ui-ready`, `phase-2a-engine-core`.
+- **Visualization engine (Part 3)**, pure Dart, in `lib/features/visualization/engine/`:
+  `VisualizationState`, `VisualizationStep`, `Checkpoint`, `Visualization`, `VisualizationController`, `AlgorithmGenerator`.
+- **Visualization widgets (Part 4)** in `lib/features/visualization/widgets/`:
+  `ArrayVisualizer`, `PointerMarker`, `CodePanel`, `ExplanationBox`, `ControlsBar`, `VisualizationPlayer`.
+  Colour is always paired with an icon or label.
+- 49 automated tests, all passing.
+- Git tags: `phase-1-ui-ready`, `phase-2a-engine-core`, `phase-2b-viz-widgets`.
 
 ---
 
 ## What to do next
 
-### Part 4 — Visualization Widgets (next)
-Reusable widgets in `lib/features/visualization/widgets/` that render the engine:
-1. `ArrayVisualizer` (array boxes, highlights, labels)
-2. `PointerMarker` (LOW / MID / HIGH above the index)
-3. `CodePanel` (current code line highlighted)
-4. `ExplanationBox` (Hinglish explanation)
-5. `ControlsBar` (play, pause, next, previous, restart, speed)
-6. `VisualizationPlayer` (joins everything using `VisualizationController`)
+### Part 5 — Binary Search + Checkpoint (next, completes MVP-A)
+1. `BinarySearchGenerator` (LOW / MID / HIGH steps, Hinglish explanation, code line mapping)
+2. Binary Search code text for the `CodePanel`
+3. Exactly one checkpoint question with feedback
+4. A page that runs the `VisualizationPlayer`, then shows the checkpoint
+5. Make Binary Search playable from the Visualize tab
+6. Unit tests (found, not found, single element, empty, deterministic)
 
-Widgets only render state; they never know a specific algorithm. Colour is always paired with an icon or label. Tag when done: `phase-2b-viz-widgets`.
+Tag when done: `phase-3a-binary-search`.
 
 ### After that
-- **Part 5:** Binary Search + the mandatory checkpoint question. *This completes MVP-A.*
 - **Parts 6-8:** Linear Search, Bubble / Selection / Insertion Sort, then roadmap progress with XP, streak and badges.
 - **Parts 9-11:** Node.js + Express + MongoDB backend, login, and connecting the app to the API.
 - **Parts 12-14:** practice problems (CodeChef → GeeksforGeeks → LeetCode → HackerRank), ABHAY contests, "Visualize Mistake".
@@ -74,4 +68,36 @@ lib/
   app/        theme, routes, bottom-nav shell
   core/       constants, models, mock data, utils
   features/   home, roadmap, visualization, contest, profile
-    visualization/engine/   models, controller, generator interface
+    visualization/engine/    models, controller, generator interface
+    visualization/widgets/   array, pointers, code panel, controls, player
+  shared/     reusable widgets
+test/         widget and unit tests
+docs/         progress, roadmap, next task, setup notes
+```
+
+## Run locally
+```bash
+flutter pub get
+flutter analyze
+flutter test
+flutter run -d chrome     # quick UI check
+flutter run               # Android device or emulator
+```
+The package name must stay `abhay` (tests import `package:abhay/...`). The folder name can be anything.
+
+## Workflow
+One part at a time. After each part: analyze, test, commit, tag, push.
+Do not use `git add -A` (Flutter auto-modifies generated plugin files in `linux/`, `macos/`, `windows/`). Add specific paths instead.
+```bash
+git add <specific paths>
+git commit -m "Part N: what was done"
+git tag phase-xxx
+git push && git push --tags
+```
+
+## Design rules
+1. Visualization is the main feature. Every lesson ends with exactly one checkpoint question.
+2. Algorithms only *generate* states; the renderer only *renders* states.
+3. Practice problems link to the official source; problem statements are never copied.
+4. Contest scoring is server-authoritative. User code is never run in the normal API.
+5. Rewards are for understanding, not for watch time.
