@@ -17,7 +17,8 @@ class AppStrings {
   static const homeGoal = 'Aaj ka goal';
   static const homeUpcomingContest = 'Aane wala contest';
   static const homeWeakTopics = 'Kamzor topics';
-  static const homeNoWeakTopics = 'Abhi koi kamzor topic nahi. Bas aise hi chalte raho!';
+  static const homeNoWeakTopics =
+      'Abhi koi kamzor topic nahi. Bas aise hi chalte raho!';
   static const homeStartVisualization = 'Visualization dekho';
 
   // Roadmap
@@ -44,4 +45,10 @@ class AppStrings {
   static const profileBadges = 'Badges';
   static const profileCompletedTopics = 'Complete kiye topics';
   static const profileNoCompleted = 'Abhi koi topic complete nahi hua.';
+
+  // Visualization widgets
+  static const arrayEmpty = 'Array khali hai.';
+  static const vizIndex = 'Index';
+  static const vizHighlighted = 'Highlight';
+  static const vizActive = 'Active';
 }
