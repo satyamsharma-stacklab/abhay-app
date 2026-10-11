@@ -55,4 +55,12 @@ class AppStrings {
   static const explainTitle = 'Samjho';
   static const explainEmpty =
       'Play ya Next dabao, step yahan samjhaya jayega.';
+
+  // Controls bar
+  static const ctrlPlay = 'Play';
+  static const ctrlPause = 'Pause';
+  static const ctrlNext = 'Next';
+  static const ctrlPrevious = 'Peeche';
+  static const ctrlRestart = 'Restart';
+  static const ctrlSpeed = 'Speed';
 }
