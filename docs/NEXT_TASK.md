@@ -1,33 +1,42 @@
-# Agla Task: Part 5 — Binary Search + Checkpoint (MVP-A)
+# Agla Task: Part 7 - Bubble / Selection / Insertion Sort
 
-**Goal:** Pehla asli algorithm: Binary Search ki visualization, Part 4 ke player par chalti hui, aur end mein exactly ek checkpoint question.
-**Git tag at end:** `phase-3a-binary-search`
+**Goal:** Teen sorting algorithms ki visualization (swap steps, sorted part highlighted), har ek ke end mein exactly ek checkpoint question.
+**Git tag at end:** `phase-4-sorting`
 
-## Kya banega
-1. `BinarySearchGenerator` (implements `AlgorithmGenerator`), `lib/features/algorithms/binary_search/`
-   - Steps: LOW/MID/HIGH pointers, compare, left/right half discard, found / not found
-   - Har step ka Hinglish explanation, codeLine mapping
-2. Binary Search ka code text (CodePanel ke liye lines)
-3. Checkpoint question (Hinglish, sirf 1)
-4. Ek page jo input array + target leke `VisualizationPlayer` dikhaye, end par checkpoint
-5. `visualize_page.dart` mein Binary Search ko playable banana
-6. Unit tests: generator deterministic, found / not found / single element / empty
+## Pehle chhota cleanup (Session 0)
+1. `CheckpointCard` ko `binary_search/` se `lib/features/visualization/widgets/` mein le jana (imports update)
+2. `AppStrings` ke `bs...` checkpoint strings ko `cp...` naam dena (`bsCheckpointTitle`, `bsSubmit`, `bsCorrect`, `bsWrong`)
+3. Soch: generic `AlgorithmPage(generator, codeLines, input, target)` taaki har sort ke liye alag page copy na ho
+
+## Kya banega (har sort ke liye)
+1. `XxxSortGenerator` (implements `AlgorithmGenerator`), `lib/features/algorithms/<sort_name>/`
+   - Steps: compare, swap, sorted part highlighted, done
+   - Hinglish explanation + codeLine mapping
+2. `xxx_sort_code.dart` (CodePanel ke liye lines)
+3. Exactly ek checkpoint sawaal (Hinglish)
+4. Page (ya generic AlgorithmPage) + `visualize_page.dart` mein `_readyIds` aur `_pageFor` dono update
+5. Tests: generator (already sorted, reverse, duplicates, single, empty, deterministic), page
 
 ## Rules
 - Generator sirf steps banata hai, UI nahi jaanta
 - Same input -> same steps
+- Colour ke saath icon/label (sorted = tick wala highlight)
 - Text Hinglish, `lib/core/constants/strings.dart` mein
 
 ## Done kab maanenge
-- [ ] Binary Search app mein chalta hai (Visualize tab se)
-- [ ] Checkpoint answer check + feedback dikhta hai
+- [ ] Teeno sorts Visualize tab se khulte hain
+- [ ] Har sort ka checkpoint answer + feedback chalta hai
 - [ ] `flutter analyze` + `flutter test` pass
-- [ ] `git tag phase-3a-binary-search` + push
+- [ ] `visualize_open_test.dart` update (Bubble Sort ab "Jald aa raha hai" nahi)
+- [ ] `git tag phase-4-sorting` + push
 
 ## Chhote sessions mein
-1. `BinarySearchGenerator` + tests
-2. Binary Search page + checkpoint UI
-3. Visualize tab se jodna
+0. Cleanup (CheckpointCard shared, strings rename)
+1. BubbleSortGenerator + code lines + tests
+2. Bubble Sort page + Visualize tab se jodna
+3. SelectionSortGenerator + page
+4. InsertionSortGenerator + page
+5. Docs update + tag
 
 ## Uske baad
-Part 6: Linear Search.
+Part 8: roadmap progress, XP, streak, badges (local, bina backend) = MVP-B.
