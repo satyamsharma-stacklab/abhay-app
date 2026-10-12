@@ -5,21 +5,32 @@ import '../../core/mock/mock_data.dart';
 import '../../shared/widgets/abhay_card.dart';
 import '../../shared/widgets/section_header.dart';
 import '../algorithms/binary_search/binary_search_page.dart';
+import '../algorithms/linear_search/linear_search_page.dart';
 
 /// Playable topics ki list. Jo algorithm ready hai wo khulta hai,
 /// baaki par "Jald aa raha hai" dikhta hai.
 class VisualizePage extends StatelessWidget {
   const VisualizePage({super.key});
 
-  /// Abhi sirf Binary Search ready hai.
-  static const _readyIds = {'binary-search'};
+  /// Abhi Linear Search aur Binary Search ready hain.
+  static const _readyIds = {'linear-search', 'binary-search'};
+
+  /// Topic id se uska page banata hai. Nayi algorithm = nayi line yahan.
+  Widget _pageFor(String id) {
+    switch (id) {
+      case 'linear-search':
+        return const LinearSearchPage();
+      case 'binary-search':
+        return const BinarySearchPage();
+      default:
+        throw ArgumentError('Is topic ka page nahi hai: $id');
+    }
+  }
 
   void _open(BuildContext context, String id) {
-    if (id == 'binary-search') {
-      Navigator.of(context).push(
-        MaterialPageRoute<void>(builder: (_) => const BinarySearchPage()),
-      );
-    }
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => _pageFor(id)),
+    );
   }
 
   @override
