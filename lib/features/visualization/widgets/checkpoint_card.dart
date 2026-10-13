@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/constants/strings.dart';
-import '../../visualization/engine/checkpoint.dart';
+import '../engine/checkpoint.dart';
 
 /// Ek checkpoint sawaal: options, jawab, feedback.
 /// Sahi/galat dono par icon + text hai, sirf colour nahi.
+/// Har algorithm ka page isi card ko reuse karta hai.
 class CheckpointCard extends StatefulWidget {
   final Checkpoint checkpoint;
 
@@ -38,7 +39,7 @@ class _CheckpointCardState extends State<CheckpointCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AppStrings.bsCheckpointTitle,
+              AppStrings.cpTitle,
               style: theme.textTheme.labelLarge
                   ?.copyWith(fontWeight: FontWeight.w800),
             ),
@@ -66,7 +67,7 @@ class _CheckpointCardState extends State<CheckpointCard> {
               FilledButton(
                 key: const Key('btn-submit'),
                 onPressed: _selected == null ? null : _submit,
-                child: const Text(AppStrings.bsSubmit),
+                child: const Text(AppStrings.cpSubmit),
               )
             else
               Container(
@@ -89,8 +90,8 @@ class _CheckpointCardState extends State<CheckpointCard> {
                         children: [
                           Text(
                             _result!
-                                ? AppStrings.bsCorrect
-                                : AppStrings.bsWrong,
+                                ? AppStrings.cpCorrect
+                                : AppStrings.cpWrong,
                             style: const TextStyle(
                               fontWeight: FontWeight.w800,
                             ),

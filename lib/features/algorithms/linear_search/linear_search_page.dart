@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../visualization/widgets/checkpoint_card.dart';
 import '../../visualization/widgets/visualization_player.dart';
-import '../binary_search/checkpoint_card.dart';
 import 'linear_search_code.dart';
 import 'linear_search_generator.dart';
 

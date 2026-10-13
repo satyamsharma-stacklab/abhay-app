@@ -64,12 +64,14 @@ class AppStrings {
   static const ctrlRestart = 'Restart';
   static const ctrlSpeed = 'Speed';
 
+  // Checkpoint card (har algorithm ke liye common)
+  static const cpTitle = 'Checkpoint sawaal';
+  static const cpSubmit = 'Jawab do';
+  static const cpCorrect = 'Sahi jawab!';
+  static const cpWrong = 'Galat, phir se socho.';
+
   // Binary Search page
   static const bsTarget = 'Target';
-  static const bsSubmit = 'Jawab do';
-  static const bsCorrect = 'Sahi jawab!';
-  static const bsWrong = 'Galat, phir se socho.';
-  static const bsCheckpointTitle = 'Checkpoint sawaal';
   static const bsFinishHint = 'Visualization khatam. Ab sawaal solve karo.';
 
   // Visualize list

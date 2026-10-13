@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../visualization/widgets/checkpoint_card.dart';
 import '../../visualization/widgets/visualization_player.dart';
 import 'binary_search_code.dart';
 import 'binary_search_generator.dart';
-import 'checkpoint_card.dart';
 
 /// Binary Search: player + neeche checkpoint sawaal.
 class BinarySearchPage extends StatelessWidget {
