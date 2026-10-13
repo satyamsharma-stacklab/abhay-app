@@ -5,6 +5,7 @@ import '../../core/mock/mock_data.dart';
 import '../../shared/widgets/abhay_card.dart';
 import '../../shared/widgets/section_header.dart';
 import '../algorithms/binary_search/binary_search_page.dart';
+import '../algorithms/bubble_sort/bubble_sort_page.dart';
 import '../algorithms/linear_search/linear_search_page.dart';
 
 /// Playable topics ki list. Jo algorithm ready hai wo khulta hai,
@@ -12,8 +13,8 @@ import '../algorithms/linear_search/linear_search_page.dart';
 class VisualizePage extends StatelessWidget {
   const VisualizePage({super.key});
 
-  /// Abhi Linear Search aur Binary Search ready hain.
-  static const _readyIds = {'linear-search', 'binary-search'};
+  /// Abhi Linear Search, Binary Search aur Bubble Sort ready hain.
+  static const _readyIds = {'linear-search', 'binary-search', 'bubble-sort'};
 
   /// Topic id se uska page banata hai. Nayi algorithm = nayi line yahan.
   Widget _pageFor(String id) {
@@ -22,6 +23,8 @@ class VisualizePage extends StatelessWidget {
         return const LinearSearchPage();
       case 'binary-search':
         return const BinarySearchPage();
+      case 'bubble-sort':
+        return const BubbleSortPage();
       default:
         throw ArgumentError('Is topic ka page nahi hai: $id');
     }
