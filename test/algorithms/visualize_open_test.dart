@@ -13,42 +13,28 @@ Future<void> openVisualize(WidgetTester tester) async {
   );
 }
 
+/// (topic id, us page ka key) ki list.
+const _pages = {
+  'binary-search': 'page-binary-search',
+  'linear-search': 'page-linear-search',
+  'bubble-sort': 'page-bubble-sort',
+  'selection-sort': 'page-selection-sort',
+  'insertion-sort': 'page-insertion-sort',
+};
+
 void main() {
-  testWidgets('Binary Search ka Dekho button page kholta hai',
-      (tester) async {
-    await openVisualize(tester);
-    await tester.tap(find.byKey(const Key('open-binary-search')));
-    await tester.pumpAndSettle();
-    expect(find.byKey(const Key('page-binary-search')), findsOneWidget);
+  _pages.forEach((id, pageKey) {
+    testWidgets('$id ka Dekho button page kholta hai', (tester) async {
+      await openVisualize(tester);
+      await tester.tap(find.byKey(Key('open-$id')));
+      await tester.pumpAndSettle();
+      expect(find.byKey(Key(pageKey)), findsOneWidget);
+    });
   });
 
-  testWidgets('Linear Search ka Dekho button page kholta hai',
-      (tester) async {
+  testWidgets('saare playable topics par Dekho button hai', (tester) async {
     await openVisualize(tester);
-    await tester.tap(find.byKey(const Key('open-linear-search')));
-    await tester.pumpAndSettle();
-    expect(find.byKey(const Key('page-linear-search')), findsOneWidget);
-  });
-
-  testWidgets('Bubble Sort ka Dekho button page kholta hai',
-      (tester) async {
-    await openVisualize(tester);
-    await tester.tap(find.byKey(const Key('open-bubble-sort')));
-    await tester.pumpAndSettle();
-    expect(find.byKey(const Key('page-bubble-sort')), findsOneWidget);
-  });
-
-  testWidgets('Selection Sort ka Dekho button page kholta hai',
-      (tester) async {
-    await openVisualize(tester);
-    await tester.tap(find.byKey(const Key('open-selection-sort')));
-    await tester.pumpAndSettle();
-    expect(find.byKey(const Key('page-selection-sort')), findsOneWidget);
-  });
-
-  testWidgets('Insertion Sort par abhi Jald aa raha hai', (tester) async {
-    await openVisualize(tester);
-    expect(find.byKey(const Key('open-insertion-sort')), findsNothing);
-    expect(find.text('Jald aa raha hai'), findsWidgets);
+    expect(find.text('Dekho'), findsNWidgets(_pages.length));
+    expect(find.text('Jald aa raha hai'), findsNothing);
   });
 }

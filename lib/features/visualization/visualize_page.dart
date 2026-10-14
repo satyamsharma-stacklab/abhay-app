@@ -6,6 +6,7 @@ import '../../shared/widgets/abhay_card.dart';
 import '../../shared/widgets/section_header.dart';
 import '../algorithms/binary_search/binary_search_page.dart';
 import '../algorithms/bubble_sort/bubble_sort_page.dart';
+import '../algorithms/insertion_sort/insertion_sort_page.dart';
 import '../algorithms/linear_search/linear_search_page.dart';
 import '../algorithms/selection_sort/selection_sort_page.dart';
 
@@ -14,12 +15,13 @@ import '../algorithms/selection_sort/selection_sort_page.dart';
 class VisualizePage extends StatelessWidget {
   const VisualizePage({super.key});
 
-  /// Abhi Linear, Binary Search, Bubble aur Selection Sort ready hain.
+  /// Searches aur teeno sorts ready hain.
   static const _readyIds = {
     'linear-search',
     'binary-search',
     'bubble-sort',
     'selection-sort',
+    'insertion-sort',
   };
 
   /// Topic id se uska page banata hai. Nayi algorithm = nayi line yahan.
@@ -33,6 +35,8 @@ class VisualizePage extends StatelessWidget {
         return const BubbleSortPage();
       case 'selection-sort':
         return const SelectionSortPage();
+      case 'insertion-sort':
+        return const InsertionSortPage();
       default:
         throw ArgumentError('Is topic ka page nahi hai: $id');
     }
