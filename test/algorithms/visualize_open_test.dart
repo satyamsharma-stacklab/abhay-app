@@ -38,10 +38,16 @@ void main() {
     expect(find.byKey(const Key('page-bubble-sort')), findsOneWidget);
   });
 
-  testWidgets('Selection aur Insertion Sort par abhi Jald aa raha hai',
+  testWidgets('Selection Sort ka Dekho button page kholta hai',
       (tester) async {
     await openVisualize(tester);
-    expect(find.byKey(const Key('open-selection-sort')), findsNothing);
+    await tester.tap(find.byKey(const Key('open-selection-sort')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('page-selection-sort')), findsOneWidget);
+  });
+
+  testWidgets('Insertion Sort par abhi Jald aa raha hai', (tester) async {
+    await openVisualize(tester);
     expect(find.byKey(const Key('open-insertion-sort')), findsNothing);
     expect(find.text('Jald aa raha hai'), findsWidgets);
   });
