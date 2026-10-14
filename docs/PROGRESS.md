@@ -1,4 +1,4 @@
-# Progress (12-10-2026)
+# Progress (14-10-2026)
 
 ## Complete
 ### Part 1 - Environment (mostly done)
@@ -35,23 +35,30 @@
 - Git tag: `phase-2b-viz-widgets` (commit 6d7f3c4)
 
 ### Part 5 - Binary Search + Checkpoint (DONE, MVP-A)
-- `lib/features/algorithms/binary_search/`: binary_search_code.dart, binary_search_generator.dart, checkpoint_card.dart (reusable CheckpointCard), binary_search_page.dart
+- `lib/features/algorithms/binary_search/`: code, generator, page
 - Pointers LOW / MID / HIGH, Hinglish explanation, ek checkpoint sawaal
 - Visualize tab se "Dekho" button se khulta hai
 - `flutter test`: +64 All tests passed
 - Git tag: `phase-3a-binary-search` (commit 34d57dd)
 
 ### Part 6 - Linear Search (DONE)
-- `lib/features/algorithms/linear_search/`: linear_search_code.dart, linear_search_generator.dart, linear_search_page.dart
-- Pointer `I`; har index par `check` step, mismatch par `next` step; aakhri element ke baad `next` nahi
+- `lib/features/algorithms/linear_search/`: code, generator, page
+- Pointer `I`; har index par `check` step, mismatch par `next` step
 - Unsorted array [7, 3, 9, 1, 5], target 9; duplicate mein pehla match
-- Checkpoint: worst case mein kitne elements check hote hain (sahi: option 0, O(n))
-- CheckpointCard `binary_search` folder se reuse hota hai
 - `visualize_page.dart`: `_readyIds` + `_pageFor` switch (dono saath update karne hain)
-- Tests: generator 16, page 5, visualize_open 3
-- `flutter analyze`: No issues found
 - `flutter test`: +87 All tests passed
-- Git tag: `phase-3b-linear-search`
+- Git tag: `phase-3b-linear-search` (commit 42ce9f3)
+
+### Part 7 - Sorting (DONE)
+- Session 0 cleanup: `CheckpointCard` ab `lib/features/visualization/widgets/` mein (shared); strings `bs...` se `cp...` (cpTitle, cpSubmit, cpCorrect, cpWrong) - commit cb87648
+- Bubble Sort (`lib/features/algorithms/bubble_sort/`): pointers J, J+1; steps init/compare/swap/no_swap/pass_done/done; early exit; sorted = tick; generator 16 tests, page 5 tests - commits 579abd5, 85304d1
+- Selection Sort (`selection_sort/`): pointers I, J, MIN; steps init/compare/new_min/swap/no_swap/done; generator 17 tests, page 5 tests - commit d0d3823
+- Insertion Sort (`insertion_sort/`): pointers I, J; label KEY=x; steps init/pick_key/compare/shift/insert/done; shift ke dauraan array mein duplicate value dikhti hai (asli algorithm jaisa); generator 19 tests, page 5 tests - commit b91886e
+- `visualize_open_test.dart`: ab ek map (topic id -> page key) se saare 5 topics test hote hain
+- Har sort ka checkpoint: ek sawaal, sahi jawab option 0
+- `flutter analyze`: No issues found
+- `flutter test`: +157 All tests passed
+- Git tag: `phase-4-sorting`
 
 ### Git / Repo setup (DONE)
 - Repo: `satyamsharma-stacklab/abhay-app` (private)
@@ -59,16 +66,17 @@
 - Main working folder: `C:\dev\abhay_clone`; purana `C:\dev\abhay_app` sirf backup
 
 ## Pending (chhote items)
-- [ ] Android emulator/phone par app chalana
+- [ ] Android emulator/phone par app chalana (Chrome par bhi 6 checks baaki: Linear/Binary/Bubble/Selection/Insertion, checkpoint, dark mode)
 - [ ] `flutter build apk --debug` (debug APK banana)
 - [ ] Git tag `phase-0-ready` (Android run ke baad)
 - [ ] Part 2 ke 3 manual checks: Roadmap labels, Dark mode switch, Home button -> Visualize tab
-- [ ] Cleanup: `CheckpointCard` ko shared folder mein le jana
-- [ ] Cleanup: `AppStrings` ke `bs...` checkpoint strings ko `cp...` naam dena
-- [ ] Soch: generic `AlgorithmPage` refactor (Part 7 se pehle)
+- [x] Cleanup: `CheckpointCard` shared folder mein
+- [x] Cleanup: `bs...` checkpoint strings ko `cp...` naam
+- [ ] Soch: generic `AlgorithmPage` refactor (5 pages ab ek jaise hain, Part 8 se pehle sahi waqt)
+- [ ] Cleanup: `bsTarget`, `bsFinishHint` strings abhi use ho rahi hain ya nahi check karna
 
 ## Next
-- Part 7: Bubble / Selection / Insertion Sort, details `docs/NEXT_TASK.md` mein
+- Part 8: roadmap progress, XP, streak, badges (local), details `docs/NEXT_TASK.md` mein
 
 ## Known notes
 - Project hamesha `C:\dev` mein rakho, OneDrive mein nahi.
@@ -78,3 +86,5 @@
 - Lambi lines paste mein kat sakti hain, code ki lines 80 char ke andar rakho.
 - ListView ka page test karte waqt `tester.view.physicalSize = Size(800, 3000)` set karo.
 - Nayi file banane se pehle check karo ki path pehle se maujood to nahi; paste hamesha sahi tab (path dekh ke) mein karo.
+- Generator mein har step par `List.of(a)` copy zaroori hai, warna baad ke swaps purane steps badal dete hain.
+- Test chalane se pehle check karo ki nayi test file mein code paste + save hua ho (khali file se count kam aata hai).

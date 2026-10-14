@@ -8,18 +8,19 @@ Instead of reading theory, the student **watches an algorithm run step by step**
 
 ---
 
-## Current status (12-10-2026)
+## Current status (14-10-2026)
 
 | Part | What | Status |
 |---|---|---|
 | 1 | Environment setup (Flutter, Android SDK) | Done (Android device run + debug APK pending) |
 | 2 | Flutter foundation (theme, routing, 5-tab navigation, mock data) | **Done** (tag `phase-1-ui-ready`) |
 | 3 | Visualization engine core (models, controller, generator interface) | **Done** (tag `phase-2a-engine-core`) |
-| 4 | Visualization widgets (6 widgets, 49 tests) | **Done** (tag `phase-2b-viz-widgets`) |
+| 4 | Visualization widgets (6 widgets) | **Done** (tag `phase-2b-viz-widgets`) |
 | 5 | Binary Search + checkpoint (MVP-A) | **Done** (tag `phase-3a-binary-search`) |
 | 6 | Linear Search + checkpoint | **Done** (tag `phase-3b-linear-search`) |
-| 7 | Bubble / Selection / Insertion Sort | **Next** |
-| 8-15 | Progress/XP/streak, backend, practice, contests, release | Planned |
+| 7 | Bubble / Selection / Insertion Sort | **Done** (tag `phase-4-sorting`) |
+| 8 | Progress, XP, streak, badges (local) = MVP-B | **Next** |
+| 9-15 | Backend, login, practice, contests, release | Planned |
 
 ### What has been done
 - Light and dark theme (Material 3), routing, 5-tab bottom navigation: **Home, Roadmap, Visualize, Contest, Profile**.
@@ -28,29 +29,27 @@ Instead of reading theory, the student **watches an algorithm run step by step**
 - **Visualization engine (Part 3)**, pure Dart, in `lib/features/visualization/engine/`:
   `VisualizationState`, `VisualizationStep`, `Checkpoint`, `Visualization`, `VisualizationController`, `AlgorithmGenerator`.
 - **Visualization widgets (Part 4)** in `lib/features/visualization/widgets/`:
-  `ArrayVisualizer`, `PointerMarker`, `CodePanel`, `ExplanationBox`, `ControlsBar`, `VisualizationPlayer`.
+  `ArrayVisualizer`, `PointerMarker`, `CodePanel`, `ExplanationBox`, `ControlsBar`, `VisualizationPlayer`, and the shared `CheckpointCard`.
   Colour is always paired with an icon or label.
-- **Binary Search (Part 5)** and **Linear Search (Part 6)** in `lib/features/algorithms/`:
-  generator, code lines, page, and one checkpoint question each. Both open from the Visualize tab ("Dekho" button).
-- 87 automated tests, all passing.
-- Git tags: `phase-1-ui-ready`, `phase-2a-engine-core`, `phase-2b-viz-widgets`, `phase-3a-binary-search`, `phase-3b-linear-search`.
+- **Five algorithms** in `lib/features/algorithms/`: Binary Search, Linear Search, Bubble Sort, Selection Sort, Insertion Sort.
+  Each has a generator, code lines, a page, and exactly one checkpoint question. All open from the Visualize tab ("Dekho" button).
+- 157 automated tests, all passing.
+- Git tags: `phase-1-ui-ready`, `phase-2a-engine-core`, `phase-2b-viz-widgets`, `phase-3a-binary-search`, `phase-3b-linear-search`, `phase-4-sorting`.
 
 ---
 
 ## What to do next
 
-### Part 7 - Sorting (next)
-Session 0 is a small cleanup (move `CheckpointCard` to a shared folder, rename `bs...` strings, think about a generic `AlgorithmPage`). Then:
-1. Bubble Sort (compare / swap steps, sorted part highlighted)
-2. Selection Sort
-3. Insertion Sort
-4. Exactly one checkpoint question per sort
-5. Make each sort playable from the Visualize tab
+### Part 8 - Progress, XP, streak, badges (next, completes MVP-B)
+Session 0 is a small cleanup (generic `AlgorithmPage`). Then:
+1. `ProgressService` (pure Dart): correct checkpoint completes a topic and gives XP
+2. Local storage with `shared_preferences`
+3. Streak and badges
+4. Home, Roadmap and Profile show real progress instead of mock data
 
-Tag when done: `phase-4-sorting`.
+Tag when done: `phase-5-progress`.
 
 ### After that
-- **Part 8:** roadmap progress with XP, streak and badges (local, no backend) = MVP-B.
 - **Parts 9-11:** Node.js + Express + MongoDB backend, login, and connecting the app to the API.
 - **Parts 12-14:** practice problems (CodeChef -> GeeksforGeeks -> LeetCode -> HackerRank), ABHAY contests, "Visualize Mistake".
 - **Part 15:** Android release build.
@@ -71,8 +70,9 @@ Full details: [`docs/ROADMAP.md`](docs/ROADMAP.md) | [`docs/NEXT_TASK.md`](docs/
       core/       constants, models, mock data, utils
       features/   home, roadmap, visualization, algorithms, contest, profile
         visualization/engine/    models, controller, generator interface
-        visualization/widgets/   array, pointers, code panel, controls, player
-        algorithms/              binary_search, linear_search (generator, code, page)
+        visualization/widgets/   array, pointers, code panel, controls, player, checkpoint card
+        algorithms/              binary_search, linear_search, bubble_sort,
+                                 selection_sort, insertion_sort (generator, code, page)
       shared/     reusable widgets
     test/         widget and unit tests
     docs/         progress, roadmap, next task, setup notes
