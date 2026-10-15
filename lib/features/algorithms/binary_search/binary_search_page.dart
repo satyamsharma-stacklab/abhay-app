@@ -16,6 +16,7 @@ class BinarySearchPage extends StatelessWidget {
       input: const [2, 5, 8, 12, 16, 23, 38],
       target: 23,
       pageKey: 'page-binary-search',
+      topicId: 'binary-search',
     );
   }
 }

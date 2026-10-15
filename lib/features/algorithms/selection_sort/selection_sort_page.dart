@@ -15,6 +15,7 @@ class SelectionSortPage extends StatelessWidget {
       codeLines: selectionSortCodeLines,
       input: const [64, 25, 12, 22, 11],
       pageKey: 'page-selection-sort',
+      topicId: 'selection-sort',
     );
   }
 }

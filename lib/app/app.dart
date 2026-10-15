@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '../core/constants/strings.dart';
+import '../features/progress/progress_controller.dart';
+import '../features/progress/progress_scope.dart';
 import 'routes.dart';
 import 'theme.dart';
 
 class AbhayApp extends StatefulWidget {
-  const AbhayApp({super.key});
+  const AbhayApp({super.key, required this.progress});
+
+  /// Poore app ka progress (main.dart mein load hoke aata hai).
+  final ProgressController progress;
 
   @override
   State<AbhayApp> createState() => _AbhayAppState();
@@ -23,19 +28,22 @@ class _AbhayAppState extends State<AbhayApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<ThemeMode>(
-      valueListenable: _themeMode,
-      builder: (context, mode, child) {
-        return MaterialApp(
-          title: AppStrings.appName,
-          debugShowCheckedModeBanner: false,
-          theme: buildAbhayTheme(Brightness.light),
-          darkTheme: buildAbhayTheme(Brightness.dark),
-          themeMode: mode,
-          initialRoute: AppRoutes.shell,
-          onGenerateRoute: _onGenerateRoute,
-        );
-      },
+    return ProgressScope(
+      controller: widget.progress,
+      child: ValueListenableBuilder<ThemeMode>(
+        valueListenable: _themeMode,
+        builder: (context, mode, child) {
+          return MaterialApp(
+            title: AppStrings.appName,
+            debugShowCheckedModeBanner: false,
+            theme: buildAbhayTheme(Brightness.light),
+            darkTheme: buildAbhayTheme(Brightness.dark),
+            themeMode: mode,
+            initialRoute: AppRoutes.shell,
+            onGenerateRoute: _onGenerateRoute,
+          );
+        },
+      ),
     );
   }
 }

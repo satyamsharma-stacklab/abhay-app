@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-// NOTE: 'abhay' = project name. Agar aapne `flutter create` mein alag naam diya hai
-// to ye imports us naam se badal do (pubspec.yaml ka `name:` dekho).
 import 'package:abhay/app/app.dart';
 import 'package:abhay/core/models/user_progress.dart';
+import 'package:abhay/features/progress/progress_controller.dart';
+import 'package:abhay/features/progress/progress_repository.dart';
 
 Finder navLabel(String label) =>
     find.descendant(of: find.byType(NavigationBar), matching: find.text(label));
 
+/// Khali storage wala app (har test mein naya progress).
+Future<AbhayApp> makeApp() async {
+  SharedPreferences.setMockInitialValues({});
+  final prefs = await SharedPreferences.getInstance();
+  return AbhayApp(
+    progress: ProgressController(repository: ProgressRepository(prefs)),
+  );
+}
+
 void main() {
   testWidgets('app Home par khulta hai aur 5 tabs dikhte hain', (tester) async {
-    await tester.pumpWidget(const AbhayApp());
+    await tester.pumpWidget(await makeApp());
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('page-home')), findsOneWidget);
@@ -21,7 +31,7 @@ void main() {
   });
 
   testWidgets('saare 5 tabs khulte hain', (tester) async {
-    await tester.pumpWidget(const AbhayApp());
+    await tester.pumpWidget(await makeApp());
     await tester.pumpAndSettle();
 
     const tabs = {
@@ -39,7 +49,7 @@ void main() {
   });
 
   testWidgets('Home ka button Visualize tab kholta hai', (tester) async {
-    await tester.pumpWidget(const AbhayApp());
+    await tester.pumpWidget(await makeApp());
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Visualization dekho'));
@@ -53,7 +63,7 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
-    await tester.pumpWidget(const AbhayApp());
+    await tester.pumpWidget(await makeApp());
     await tester.pumpAndSettle();
     await tester.tap(navLabel('Roadmap'));
     await tester.pumpAndSettle();
@@ -64,7 +74,7 @@ void main() {
   });
 
   testWidgets('contest tab mein 3 sub-tabs hain', (tester) async {
-    await tester.pumpWidget(const AbhayApp());
+    await tester.pumpWidget(await makeApp());
     await tester.pumpAndSettle();
     await tester.tap(navLabel('Contest'));
     await tester.pumpAndSettle();
@@ -75,7 +85,7 @@ void main() {
   });
 
   testWidgets('dark mode switch theme badalta hai', (tester) async {
-    await tester.pumpWidget(const AbhayApp());
+    await tester.pumpWidget(await makeApp());
     await tester.pumpAndSettle();
     await tester.tap(navLabel('Profile'));
     await tester.pumpAndSettle();

@@ -15,6 +15,7 @@ class InsertionSortPage extends StatelessWidget {
       codeLines: insertionSortCodeLines,
       input: const [5, 2, 4, 6, 1],
       pageKey: 'page-insertion-sort',
+      topicId: 'insertion-sort',
     );
   }
 }

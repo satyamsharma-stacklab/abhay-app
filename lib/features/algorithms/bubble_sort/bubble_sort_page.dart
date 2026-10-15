@@ -15,6 +15,7 @@ class BubbleSortPage extends StatelessWidget {
       codeLines: bubbleSortCodeLines,
       input: const [5, 1, 4, 2, 8],
       pageKey: 'page-bubble-sort',
+      topicId: 'bubble-sort',
     );
   }
 }

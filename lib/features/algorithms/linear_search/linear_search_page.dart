@@ -16,6 +16,7 @@ class LinearSearchPage extends StatelessWidget {
       input: const [7, 3, 9, 1, 5],
       target: 9,
       pageKey: 'page-linear-search',
+      topicId: 'linear-search',
     );
   }
 }

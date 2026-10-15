@@ -17,6 +17,9 @@ class AlgorithmPage extends StatelessWidget {
   /// ListView ka key, jaise 'page-binary-search' (tests isi se dhoondhte hain).
   final String pageKey;
 
+  /// Topic id (jaise 'binary-search'). Sahi checkpoint par isi ka progress save hota hai.
+  final String? topicId;
+
   const AlgorithmPage({
     super.key,
     required this.generator,
@@ -24,6 +27,7 @@ class AlgorithmPage extends StatelessWidget {
     required this.input,
     required this.pageKey,
     this.target,
+    this.topicId,
   });
 
   @override
@@ -39,7 +43,7 @@ class AlgorithmPage extends StatelessWidget {
         children: [
           VisualizationPlayer(visualization: viz, codeLines: codeLines),
           const SizedBox(height: 16),
-          CheckpointCard(checkpoint: viz.checkpoint),
+          CheckpointCard(checkpoint: viz.checkpoint, topicId: topicId),
         ],
       ),
     );
