@@ -70,9 +70,7 @@ class AppStrings {
   static const cpCorrect = 'Sahi jawab!';
   static const cpWrong = 'Galat, phir se socho.';
 
-  // Binary Search page
-  static const bsTarget = 'Target';
-  static const bsFinishHint = 'Visualization khatam. Ab sawaal solve karo.';
+  
 
   // Visualize list
   static const vizOpen = 'Dekho';
