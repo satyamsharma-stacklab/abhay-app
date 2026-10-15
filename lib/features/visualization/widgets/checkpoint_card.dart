@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/constants/strings.dart';
+import '../../progress/progress_scope.dart';
 import '../engine/checkpoint.dart';
 
 /// Ek checkpoint sawaal: options, jawab, feedback.
@@ -9,7 +10,11 @@ import '../engine/checkpoint.dart';
 class CheckpointCard extends StatefulWidget {
   final Checkpoint checkpoint;
 
-  const CheckpointCard({super.key, required this.checkpoint});
+  /// Kis topic ka sawaal hai (jaise 'binary-search'). Sahi jawab par isi
+  /// topic ka progress save hota hai. Null ho to progress nahi badalta.
+  final String? topicId;
+
+  const CheckpointCard({super.key, required this.checkpoint, this.topicId});
 
   @override
   State<CheckpointCard> createState() => _CheckpointCardState();
@@ -22,7 +27,14 @@ class _CheckpointCardState extends State<CheckpointCard> {
   void _submit() {
     final s = _selected;
     if (s == null) return;
-    setState(() => _result = widget.checkpoint.isCorrect(s));
+    final correct = widget.checkpoint.isCorrect(s);
+    setState(() => _result = correct);
+
+    // Sirf SAHI jawab par progress (galat par XP nahi).
+    final id = widget.topicId;
+    if (correct && id != null) {
+      ProgressScope.maybeOf(context)?.recordCorrect(id);
+    }
   }
 
   @override
