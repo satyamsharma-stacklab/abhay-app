@@ -9,6 +9,8 @@ import '../../shared/widgets/abhay_button.dart';
 import '../../shared/widgets/abhay_card.dart';
 import '../../shared/widgets/section_header.dart';
 import '../../shared/widgets/stat_chip.dart';
+import '../progress/progress_scope.dart';
+import '../progress/topic_status.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key, required this.onOpenTab});
@@ -18,10 +20,20 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final user = MockData.user;
-    final current = MockData.topics.firstWhere((t) => t.id == user.currentTopicId);
+    final user = MockData.user; // naam aur goal target abhi mock
+    final progress = ProgressScope.of(context);
+
+    final topics =
+        resolveTopics(MockData.topics, progress.state.completedTopics);
+    final current = currentTopic(topics);
     final upcoming =
         MockData.contests.where((c) => c.status == ContestStatus.upcoming).toList();
+
+    // Daily goal: aaj ke sahi checkpoints / target.
+    final done = progress.todayCorrect;
+    final target = user.dailyGoalTarget;
+    final fraction =
+        target <= 0 ? 0.0 : (done / target).clamp(0.0, 1.0).toDouble();
 
     return ListView(
       key: const Key('page-home'),
@@ -36,9 +48,9 @@ class HomePage extends StatelessWidget {
           children: [
             StatChip(
                 icon: Icons.local_fire_department,
-                value: '${user.streak}',
+                value: '${progress.streak}',
                 label: 'din streak'),
-            StatChip(icon: Icons.bolt, value: '${user.xp}', label: 'XP'),
+            StatChip(icon: Icons.bolt, value: '${progress.state.xp}', label: 'XP'),
           ],
         ),
         const SizedBox(height: 20),
@@ -49,12 +61,12 @@ class HomePage extends StatelessWidget {
               Text(AppStrings.homeGoal, style: theme.textTheme.titleMedium),
               const SizedBox(height: 10),
               LinearProgressIndicator(
-                value: user.dailyGoalFraction,
+                value: fraction,
                 minHeight: 10,
                 borderRadius: BorderRadius.circular(8),
               ),
               const SizedBox(height: 8),
-              Text('${user.dailyGoalDone}/${user.dailyGoalTarget} visualization complete'),
+              Text('$done/$target visualization complete'),
             ],
           ),
         ),
@@ -92,18 +104,9 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
+        // Weak topics abhi track nahi hote (baad ke part mein), isliye khali.
         const SectionHeader(AppStrings.homeWeakTopics),
-        if (user.weakTopics.isEmpty)
-          const AbhayCard(child: Text(AppStrings.homeNoWeakTopics))
-        else
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              for (final t in user.weakTopics)
-                Chip(avatar: const Icon(Icons.warning_amber_rounded, size: 18), label: Text(t)),
-            ],
-          ),
+        const AbhayCard(child: Text(AppStrings.homeNoWeakTopics)),
       ],
     );
   }

@@ -6,6 +6,8 @@ import '../../core/models/roadmap_topic.dart';
 import '../../shared/widgets/abhay_card.dart';
 import '../../shared/widgets/section_header.dart';
 import '../../shared/widgets/stat_chip.dart';
+import '../progress/progress_scope.dart';
+import '../progress/topic_status.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key, required this.themeMode});
@@ -15,9 +17,12 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final user = MockData.user;
-    final completed =
-        MockData.topics.where((t) => t.status == TopicStatus.completed).toList();
+    final user = MockData.user; // naam abhi mock
+    final progress = ProgressScope.of(context);
+    final completed = resolveTopics(
+            MockData.topics, progress.state.completedTopics)
+        .where((t) => t.status == TopicStatus.completed)
+        .toList();
 
     return ListView(
       key: const Key('page-profile'),
@@ -44,9 +49,9 @@ class ProfilePage extends StatelessWidget {
           children: [
             StatChip(
                 icon: Icons.local_fire_department,
-                value: '${user.streak}',
+                value: '${progress.streak}',
                 label: 'din streak'),
-            StatChip(icon: Icons.bolt, value: '${user.xp}', label: 'XP'),
+            StatChip(icon: Icons.bolt, value: '${progress.state.xp}', label: 'XP'),
           ],
         ),
         const SizedBox(height: 16),

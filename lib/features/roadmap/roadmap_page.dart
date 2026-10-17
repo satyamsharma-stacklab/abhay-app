@@ -5,13 +5,18 @@ import '../../core/mock/mock_data.dart';
 import '../../core/models/roadmap_topic.dart';
 import '../../shared/widgets/abhay_card.dart';
 import '../../shared/widgets/section_header.dart';
+import '../progress/progress_scope.dart';
+import '../progress/topic_status.dart';
 
 class RoadmapPage extends StatelessWidget {
   const RoadmapPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final topics = MockData.topics;
+    // Asli progress se status (progress badalne par ye apne aap rebuild hota hai).
+    final progress = ProgressScope.of(context);
+    final topics =
+        resolveTopics(MockData.topics, progress.state.completedTopics);
     return ListView.builder(
       key: const Key('page-roadmap'),
       padding: const EdgeInsets.all(16),

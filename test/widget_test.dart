@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:abhay/app/app.dart';
-import 'package:abhay/core/models/user_progress.dart';
 import 'package:abhay/features/progress/progress_controller.dart';
 import 'package:abhay/features/progress/progress_repository.dart';
 
@@ -44,7 +43,8 @@ void main() {
     for (final e in tabs.entries) {
       await tester.tap(navLabel(e.key));
       await tester.pumpAndSettle();
-      expect(find.byKey(Key(e.value)), findsOneWidget, reason: '${e.key} tab nahi khula');
+      expect(find.byKey(Key(e.value)), findsOneWidget,
+          reason: '${e.key} tab nahi khula');
     }
   });
 
@@ -57,13 +57,17 @@ void main() {
     expect(find.byKey(const Key('page-visualize')), findsOneWidget);
   });
 
-  testWidgets('roadmap par completed/unlocked/locked labels dikhte hain', (tester) async {
+  testWidgets('roadmap par completed/unlocked/locked labels dikhte hain',
+      (tester) async {
     tester.view.physicalSize = const Size(800, 2400);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
-    await tester.pumpWidget(await makeApp());
+    // Ek topic pehle se complete, taaki "Complete" label dikhe.
+    final app = await makeApp();
+    await app.progress.recordCorrect('binary-search');
+    await tester.pumpWidget(app);
     await tester.pumpAndSettle();
     await tester.tap(navLabel('Roadmap'));
     await tester.pumpAndSettle();
@@ -96,17 +100,5 @@ void main() {
     await tester.tap(find.byType(Switch));
     await tester.pumpAndSettle();
     expect(app().themeMode, ThemeMode.light);
-  });
-
-  test('dailyGoalFraction 0 se 1 ke beech rehta hai', () {
-    const a = UserProgress(
-        name: 'x', xp: 0, streak: 0, dailyGoalDone: 1, dailyGoalTarget: 4, currentTopicId: 'a');
-    const b = UserProgress(
-        name: 'x', xp: 0, streak: 0, dailyGoalDone: 9, dailyGoalTarget: 4, currentTopicId: 'a');
-    const c = UserProgress(
-        name: 'x', xp: 0, streak: 0, dailyGoalDone: 1, dailyGoalTarget: 0, currentTopicId: 'a');
-    expect(a.dailyGoalFraction, 0.25);
-    expect(b.dailyGoalFraction, 1.0);
-    expect(c.dailyGoalFraction, 0.0);
   });
 }
