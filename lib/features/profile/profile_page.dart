@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../progress/badge_service.dart';
 import '../../core/constants/strings.dart';
 import '../../core/mock/mock_data.dart';
 import '../../core/models/roadmap_topic.dart';
@@ -19,6 +19,7 @@ class ProfilePage extends StatelessWidget {
     final theme = Theme.of(context);
     final user = MockData.user; // naam abhi mock
     final progress = ProgressScope.of(context);
+    final badges = const BadgeService().badgesFor(progress.state, streak: progress.streak);
     final completed = resolveTopics(
             MockData.topics, progress.state.completedTopics)
         .where((t) => t.status == TopicStatus.completed)
@@ -70,7 +71,7 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
         const SectionHeader(AppStrings.profileBadges),
-        for (final b in MockData.badges)
+        for (final b in badges)
           AbhayCard(
             child: Row(
               children: [
