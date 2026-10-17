@@ -1,7 +1,9 @@
 const express = require('express');
+const { topicsRouter } = require('./routes/topics');
 
 // Express app banata hai. Server start yahan nahi hota (test ke liye).
-function createApp() {
+// getTopics optional hai: diya gaya to /api/topics chalu ho jata hai.
+function createApp({ getTopics } = {}) {
   const app = express();
   app.use(express.json());
 
@@ -9,6 +11,11 @@ function createApp() {
   app.get('/health', (req, res) => {
     res.json({ status: 'ok', service: 'abhay-backend' });
   });
+
+  // Topics API (404 handler se pehle jodna zaroori hai).
+  if (getTopics) {
+    app.use('/api/topics', topicsRouter(getTopics));
+  }
 
   // Jo route nahi mila uska saaf jawab.
   app.use((req, res) => {
