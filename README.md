@@ -8,7 +8,7 @@ Instead of reading theory, the student **watches an algorithm run step by step**
 
 ---
 
-## Current status (14-10-2026)
+## Current status (15-10-2026)
 
 | Part | What | Status |
 |---|---|---|
@@ -19,38 +19,33 @@ Instead of reading theory, the student **watches an algorithm run step by step**
 | 5 | Binary Search + checkpoint (MVP-A) | **Done** (tag `phase-3a-binary-search`) |
 | 6 | Linear Search + checkpoint | **Done** (tag `phase-3b-linear-search`) |
 | 7 | Bubble / Selection / Insertion Sort | **Done** (tag `phase-4-sorting`) |
-| 8 | Progress, XP, streak, badges (local) = MVP-B | **Next** |
-| 9-15 | Backend, login, practice, contests, release | Planned |
+| 8 | Progress, XP, streak, badges (local) = MVP-B | **Done** (tag `phase-5-progress`) |
+| 9 | Backend basics (Node, Express, MongoDB) | **Next** |
+| 10-15 | Login, API connect, practice, contests, release | Planned |
 
 ### What has been done
 - Light and dark theme (Material 3), routing, 5-tab bottom navigation: **Home, Roadmap, Visualize, Contest, Profile**.
-- Screens with mock data: Home, Roadmap (18 topics), Visualize (list), Contest, Profile.
 - All default text is Hinglish and lives in one file (`lib/core/constants/strings.dart`).
-- **Visualization engine (Part 3)**, pure Dart, in `lib/features/visualization/engine/`:
-  `VisualizationState`, `VisualizationStep`, `Checkpoint`, `Visualization`, `VisualizationController`, `AlgorithmGenerator`.
-- **Visualization widgets (Part 4)** in `lib/features/visualization/widgets/`:
-  `ArrayVisualizer`, `PointerMarker`, `CodePanel`, `ExplanationBox`, `ControlsBar`, `VisualizationPlayer`, and the shared `CheckpointCard`.
-  Colour is always paired with an icon or label.
-- **Five algorithms** in `lib/features/algorithms/`: Binary Search, Linear Search, Bubble Sort, Selection Sort, Insertion Sort.
-  Each has a generator, code lines, a page, and exactly one checkpoint question. All open from the Visualize tab ("Dekho" button).
-- 157 automated tests, all passing.
-- Git tags: `phase-1-ui-ready`, `phase-2a-engine-core`, `phase-2b-viz-widgets`, `phase-3a-binary-search`, `phase-3b-linear-search`, `phase-4-sorting`.
+- **Visualization engine** (pure Dart) and **widgets** (array, pointers, code panel, explanation, controls, player, checkpoint card).
+- **Five algorithms**: Linear Search, Binary Search, Bubble Sort, Selection Sort, Insertion Sort. Each has a generator, code lines, and exactly one checkpoint question. A generic `AlgorithmPage` runs them all.
+- **Real progress (local):** a correct checkpoint answer completes the topic and gives XP (+20 first time, +5 practice, 0 for wrong answers), streak, and badges. Saved with `shared_preferences`, so it survives app restarts. Home, Roadmap and Profile show it.
+- 195 automated tests, all passing.
+- Git tags: `phase-1-ui-ready`, `phase-2a-engine-core`, `phase-2b-viz-widgets`, `phase-3a-binary-search`, `phase-3b-linear-search`, `phase-4-sorting`, `phase-5-progress`.
 
 ---
 
 ## What to do next
 
-### Part 8 - Progress, XP, streak, badges (next, completes MVP-B)
-Session 0 is a small cleanup (generic `AlgorithmPage`). Then:
-1. `ProgressService` (pure Dart): correct checkpoint completes a topic and gives XP
-2. Local storage with `shared_preferences`
-3. Streak and badges
-4. Home, Roadmap and Profile show real progress instead of mock data
+### Part 9 - Backend basics (next)
+1. Express server with a `/health` endpoint
+2. MongoDB connection (Mongoose)
+3. Topic model and `GET /api/topics`
+4. Backend tests
 
-Tag when done: `phase-5-progress`.
+Tag when done: `phase-6-backend-basics`.
 
 ### After that
-- **Parts 9-11:** Node.js + Express + MongoDB backend, login, and connecting the app to the API.
+- **Parts 10-11:** login (JWT), and connecting the app to the API (progress synced to the server).
 - **Parts 12-14:** practice problems (CodeChef -> GeeksforGeeks -> LeetCode -> HackerRank), ABHAY contests, "Visualize Mistake".
 - **Part 15:** Android release build.
 
@@ -68,11 +63,12 @@ Full details: [`docs/ROADMAP.md`](docs/ROADMAP.md) | [`docs/NEXT_TASK.md`](docs/
     lib/
       app/        theme, routes, bottom-nav shell
       core/       constants, models, mock data, utils
-      features/   home, roadmap, visualization, algorithms, contest, profile
+      features/   home, roadmap, visualization, algorithms, progress, contest, profile
         visualization/engine/    models, controller, generator interface
         visualization/widgets/   array, pointers, code panel, controls, player, checkpoint card
-        algorithms/              binary_search, linear_search, bubble_sort,
+        algorithms/              algorithm_page + binary_search, linear_search, bubble_sort,
                                  selection_sort, insertion_sort (generator, code, page)
+        progress/                state, service, repository, controller, scope, badges
       shared/     reusable widgets
     test/         widget and unit tests
     docs/         progress, roadmap, next task, setup notes

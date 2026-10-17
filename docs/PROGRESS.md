@@ -1,4 +1,4 @@
-# Progress (14-10-2026)
+# Progress (15-10-2026)
 
 ## Complete
 ### Part 1 - Environment (mostly done)
@@ -14,51 +14,44 @@
 - Reusable widgets: AbhayCard, AbhayButton, SectionHeader, StatChip
 - Pages: Home, Roadmap (18 topics), Visualize (list), Contest (3 sub-tabs), Profile
 - Mock data + Hinglish strings
-- `flutter test`: +7 All tests passed
 - Git tag: `phase-1-ui-ready` (commit 5088c6f)
 
 ### Part 3 - Visualization Engine Core (DONE)
 - Models: VisualizationState, VisualizationStep, Checkpoint, Visualization (+ Complexity)
 - VisualizationController: play, pause, next, previous, restart, setSpeed (0.25x-4x), currentStep, isFinished, isAtStart
 - AlgorithmGenerator abstract interface (deterministic steps)
-- Files: `lib/features/visualization/engine/` (6 files)
-- Tests: checkpoint 3, controller 13 (FakeGenerator ke saath)
-- `flutter test`: +23 All tests passed
 - Git tag: `phase-2a-engine-core` (commit 1afce12)
 
 ### Part 4 - Visualization Widgets (DONE)
 - `lib/features/visualization/widgets/`: ArrayVisualizer, PointerMarker, CodePanel, ExplanationBox, ControlsBar, VisualizationPlayer
 - Colour ke saath icon/label (active = aankh, highlighted = tick, code line = arrow)
-- Strings `AppStrings` mein
-- `flutter analyze`: No issues found
-- `flutter test`: +49 All tests passed
 - Git tag: `phase-2b-viz-widgets` (commit 6d7f3c4)
 
 ### Part 5 - Binary Search + Checkpoint (DONE, MVP-A)
 - `lib/features/algorithms/binary_search/`: code, generator, page
-- Pointers LOW / MID / HIGH, Hinglish explanation, ek checkpoint sawaal
-- Visualize tab se "Dekho" button se khulta hai
-- `flutter test`: +64 All tests passed
 - Git tag: `phase-3a-binary-search` (commit 34d57dd)
 
 ### Part 6 - Linear Search (DONE)
 - `lib/features/algorithms/linear_search/`: code, generator, page
-- Pointer `I`; har index par `check` step, mismatch par `next` step
-- Unsorted array [7, 3, 9, 1, 5], target 9; duplicate mein pehla match
-- `visualize_page.dart`: `_readyIds` + `_pageFor` switch (dono saath update karne hain)
-- `flutter test`: +87 All tests passed
 - Git tag: `phase-3b-linear-search` (commit 42ce9f3)
 
 ### Part 7 - Sorting (DONE)
-- Session 0 cleanup: `CheckpointCard` ab `lib/features/visualization/widgets/` mein (shared); strings `bs...` se `cp...` (cpTitle, cpSubmit, cpCorrect, cpWrong) - commit cb87648
-- Bubble Sort (`lib/features/algorithms/bubble_sort/`): pointers J, J+1; steps init/compare/swap/no_swap/pass_done/done; early exit; sorted = tick; generator 16 tests, page 5 tests - commits 579abd5, 85304d1
-- Selection Sort (`selection_sort/`): pointers I, J, MIN; steps init/compare/new_min/swap/no_swap/done; generator 17 tests, page 5 tests - commit d0d3823
-- Insertion Sort (`insertion_sort/`): pointers I, J; label KEY=x; steps init/pick_key/compare/shift/insert/done; shift ke dauraan array mein duplicate value dikhti hai (asli algorithm jaisa); generator 19 tests, page 5 tests - commit b91886e
-- `visualize_open_test.dart`: ab ek map (topic id -> page key) se saare 5 topics test hote hain
-- Har sort ka checkpoint: ek sawaal, sahi jawab option 0
+- Bubble, Selection, Insertion Sort (generator + code + page + ek checkpoint har ek ka)
+- `CheckpointCard` shared (`visualization/widgets/`), strings `cp...`
+- Git tag: `phase-4-sorting` (commit e1d38fc)
+
+### Part 8 - Progress, XP, Streak, Badges (DONE, MVP-B)
+- S0: generic `AlgorithmPage` (`lib/features/algorithms/algorithm_page.dart`), paanchon pages 15-line wrappers; dead strings hataye - 3751a94
+- S1: `ProgressState` (immutable) + `ProgressService` (pure Dart, date inject): pehli baar sahi +20 XP, dobara practice +5 (roz ek topic par ek baar), galat par 0; streak (kal tha to +1, warna 1) - 4612a7f
+- S2: `ProgressRepository` (`shared_preferences`, date `YYYY-MM-DD` text, kharab data par khali state) - d88cf1f
+- S3: `ProgressController` (ChangeNotifier) + `ProgressScope` (InheritedNotifier); `CheckpointCard(topicId)` sahi jawab par `recordCorrect` - 24aa7a3
+- S4: `app.dart`/`main.dart` mein scope + async load, 5 wrappers mein `topicId` - 03651ac
+- S5: Home, Roadmap, Profile par asli progress (`topic_status.dart`: `resolveTopics`, `currentTopic`) - ccce634
+- S6: `BadgeService` (First Visualization, Binary Search Master, Sorting Explorer, 7 Day Streak; Contest Starter abhi locked), Profile par asli badges - b64e5b7
+- Chrome par asli flow verify hua: galat par XP 0, sahi par +20, Roadmap status, refresh ke baad progress bacha
 - `flutter analyze`: No issues found
-- `flutter test`: +157 All tests passed
-- Git tag: `phase-4-sorting`
+- `flutter test`: +195 All tests passed
+- Git tag: `phase-5-progress`
 
 ### Git / Repo setup (DONE)
 - Repo: `satyamsharma-stacklab/abhay-app` (private)
@@ -66,25 +59,25 @@
 - Main working folder: `C:\dev\abhay_clone`; purana `C:\dev\abhay_app` sirf backup
 
 ## Pending (chhote items)
-- [ ] Android emulator/phone par app chalana (Chrome par bhi 6 checks baaki: Linear/Binary/Bubble/Selection/Insertion, checkpoint, dark mode)
+- [ ] Android emulator/phone par app chalana (Chrome par check ho chuka)
 - [ ] `flutter build apk --debug` (debug APK banana)
 - [ ] Git tag `phase-0-ready` (Android run ke baad)
-- [ ] Part 2 ke 3 manual checks: Roadmap labels, Dark mode switch, Home button -> Visualize tab
-- [x] Cleanup: `CheckpointCard` shared folder mein
-- [x] Cleanup: `bs...` checkpoint strings ko `cp...` naam
-- [ ] Soch: generic `AlgorithmPage` refactor (5 pages ab ek jaise hain, Part 8 se pehle sahi waqt)
-- [ ] Cleanup: `bsTarget`, `bsFinishHint` strings abhi use ho rahi hain ya nahi check karna
+- [ ] Home par "weak topics" abhi hamesha khali (tracking baad ke part mein)
+- [ ] Home par naam aur daily goal target abhi mock (`MockData.user`), login ke baad asli
+- [ ] Profile/Home par mock data (contests) Part 11 mein API se replace hoga
 
 ## Next
-- Part 8: roadmap progress, XP, streak, badges (local), details `docs/NEXT_TASK.md` mein
+- Part 9: Node.js + Express + MongoDB backend, details `docs/NEXT_TASK.md` mein
 
 ## Known notes
 - Project hamesha `C:\dev` mein rakho, OneDrive mein nahi.
 - `git add -A` mat karna: linux/macos/windows ki generated_plugin files auto-modify hoti hain. Specific paths add karo.
-- Checkpoint ke const constructor mein `options.length` use nahi ho sakta, isliye upper-bound range check test mein hota hai.
-- Package naam `abhay` hi rehna chahiye (tests `package:abhay/...` import karte hain). Folder ka naam kuch bhi ho sakta hai.
+- Checkpoint ke const constructor mein `options.length` use nahi ho sakta.
+- Package naam `abhay` hi rehna chahiye (tests `package:abhay/...` import karte hain).
 - Lambi lines paste mein kat sakti hain, code ki lines 80 char ke andar rakho.
 - ListView ka page test karte waqt `tester.view.physicalSize = Size(800, 3000)` set karo.
-- Nayi file banane se pehle check karo ki path pehle se maujood to nahi; paste hamesha sahi tab (path dekh ke) mein karo.
-- Generator mein har step par `List.of(a)` copy zaroori hai, warna baad ke swaps purane steps badal dete hain.
+- Nayi file banane se pehle check karo ki path pehle se maujood to nahi; paste sahi tab (path dekh ke) mein karo, aur `Ctrl+S` zaroor.
+- Generator mein har step par `List.of(a)` copy zaroori hai.
 - Test chalane se pehle check karo ki nayi test file mein code paste + save hua ho (khali file se count kam aata hai).
+- Nayi algorithm = ~15-line wrapper (`AlgorithmPage`) + `visualize_page.dart` mein `_readyIds` aur `_pageFor` dono.
+- Progress logic mein `DateTime.now()` seedha nahi, controller ko `now` inject hota hai.
