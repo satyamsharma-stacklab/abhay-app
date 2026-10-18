@@ -1,4 +1,4 @@
-# Progress (15-10-2026)
+# Progress (18-10-2026)
 
 ## Complete
 ### Part 1 - Environment (mostly done)
@@ -53,6 +53,19 @@
 - `flutter test`: +195 All tests passed
 - Git tag: `phase-5-progress`
 
+### Part 9 - Backend Basics (DONE)
+- Backend isi repo ke `backend/` folder mein (Node, Express, Mongoose, Jest + supertest); database MongoDB Atlas
+- S1: Express server, `GET /health` (`{ status: "ok", service: "abhay-backend" }`) + tests - e0c9d39
+- S2: MongoDB connection (Mongoose, dotenv), `src/db.js`, db connection test - 71a60cd, 48417df
+- S3: `Topic` model, seed (18 topics), `GET /api/topics`; server start par seed DB mein upsert hota hai (dobara chalane par duplicate nahi) - d73043f, f7a72d6
+- S3 fix: Windows par Atlas SRV lookup (`querySrv ECONNREFUSED`) public DNS (8.8.8.8, 1.1.1.1) se theek kiya - 61f395b
+- `.env` git mein nahi (`.gitignore` line 51 `backend/.env`); `backend/.env.example` git mein hai
+- `npm test`: 3 suites, 7 tests pass
+- Asli check (S4): `npm start` se server chala, `/health` OK, `GET /api/topics` ne 18 topics diye
+- Response shape: `GET /api/topics` seedha array nahi, `{ topics: [...] }` deta hai (PowerShell mein `$r.topics.Count`)
+- Server tabhi chalta hai jab MongoDB connect + seed ho jaye; connect fail par `process.exit(1)`, port 3000 par kuch nahi sunta
+- Git tag: `phase-6-backend-basics`
+
 ### Git / Repo setup (DONE)
 - Repo: `satyamsharma-stacklab/abhay-app` (private)
 - Commit author fix: sab commits `satyamsharma-stacklab` (noreply email) se hain
@@ -65,9 +78,10 @@
 - [ ] Home par "weak topics" abhi hamesha khali (tracking baad ke part mein)
 - [ ] Home par naam aur daily goal target abhi mock (`MockData.user`), login ke baad asli
 - [ ] Profile/Home par mock data (contests) Part 11 mein API se replace hoga
+- [ ] Backend server abhi sirf local chalta hai; app abhi API use nahi karti (Part 11)
 
 ## Next
-- Part 9: Node.js + Express + MongoDB backend, details `docs/NEXT_TASK.md` mein
+- Part 10: Login (signup/login, JWT), details `docs/NEXT_TASK.md` mein
 
 ## Known notes
 - Project hamesha `C:\dev` mein rakho, OneDrive mein nahi.
@@ -81,3 +95,6 @@
 - Test chalane se pehle check karo ki nayi test file mein code paste + save hua ho (khali file se count kam aata hai).
 - Nayi algorithm = ~15-line wrapper (`AlgorithmPage`) + `visualize_page.dart` mein `_readyIds` aur `_pageFor` dono.
 - Progress logic mein `DateTime.now()` seedha nahi, controller ko `now` inject hota hai.
+- Backend: `npm start` par "MongoDB connect nahi hua ... IP whitelist" aaye to Atlas > Network Access > IP Access List mein apna current IP add karo ("Add Current IP Address"). Ghar ke internet ka IP badalta rehta hai, to ye dobara ho sakta hai. "Allow access from anywhere" (0.0.0.0/0) mat chuno.
+- Backend: `.env` mein sirf `MONGODB_URI` hai; `PORT` set nahi, to server 3000 par chalta hai. `.env` ka content kabhi chat ya git mein mat bhejo.
+- Backend: Windows par `Invoke-RestMethod` se check karo; `/api/topics` ka response object hai (`$r.topics`).
