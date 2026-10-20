@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { createApp } = require('./app');
 const { connectDb } = require('./db');
+const { checkSecret } = require('./auth/token');
 const Topic = require('./models/topic');
 const User = require('./models/user');
 const { topics: seedTopics } = require('./topics.seed');
@@ -16,6 +17,13 @@ async function seedTopicsInDb() {
 }
 
 async function main() {
+  // JWT_SECRET sahi na ho to DB se judne se pehle hi ruk jao.
+  try {
+    checkSecret(process.env.JWT_SECRET);
+  } catch (err) {
+    console.error(err.message);
+    process.exit(1);
+  }
   try {
     await connectDb(process.env.MONGODB_URI);
     console.log('MongoDB se connect ho gaya');
@@ -28,6 +36,7 @@ async function main() {
   const getTopics = () => Topic.find().lean();
   // Auth ke DB kaam (asli User model). Tests mein inki jagah nakli aate hain.
   const auth = {
+    jwtSecret: process.env.JWT_SECRET,
     findUserByEmail: (email) => User.findOne({ email }),
     createUser: (data) => User.create(data),
   };
