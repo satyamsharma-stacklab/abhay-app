@@ -2,6 +2,7 @@ require('dotenv').config();
 const { createApp } = require('./app');
 const { connectDb } = require('./db');
 const Topic = require('./models/topic');
+const User = require('./models/user');
 const { topics: seedTopics } = require('./topics.seed');
 
 const PORT = process.env.PORT || 3000;
@@ -25,7 +26,12 @@ async function main() {
     process.exit(1);
   }
   const getTopics = () => Topic.find().lean();
-  createApp({ getTopics }).listen(PORT, () => {
+  // Auth ke DB kaam (asli User model). Tests mein inki jagah nakli aate hain.
+  const auth = {
+    findUserByEmail: (email) => User.findOne({ email }),
+    createUser: (data) => User.create(data),
+  };
+  createApp({ getTopics, auth }).listen(PORT, () => {
     console.log(`ABHAY backend chal raha hai: http://localhost:${PORT}`);
   });
 }
