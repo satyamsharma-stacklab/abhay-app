@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors'); // NAYA
 const { topicsRouter } = require('./routes/topics');
 const { authRouter } = require('./routes/auth');
 const { requireAuth } = require('./auth/middleware');
@@ -10,6 +11,12 @@ const { requireAuth } = require('./auth/middleware');
 // to /api/me (login zaroori) bhi chalu ho jata hai.
 function createApp({ getTopics, auth } = {}) {
   const app = express();
+
+  // CORS: Chrome (Flutter web) ko backend se baat karne deta hai.
+  // Sabse pehle lagana zaroori hai, taaki OPTIONS (preflight) bhi sahi jawab paye.
+  // Abhi sab origins allowed hain (development). Release se pehle limit karenge.
+  app.use(cors()); // NAYA
+
   app.use(express.json());
 
   // Health check: server zinda hai ya nahi.
