@@ -1,4 +1,4 @@
-# Progress (18-10-2026)
+# Progress (20-10-2026)
 
 ## Complete
 ### Part 1 - Environment (mostly done)
@@ -57,14 +57,23 @@
 - Backend isi repo ke `backend/` folder mein (Node, Express, Mongoose, Jest + supertest); database MongoDB Atlas
 - S1: Express server, `GET /health` (`{ status: "ok", service: "abhay-backend" }`) + tests - e0c9d39
 - S2: MongoDB connection (Mongoose, dotenv), `src/db.js`, db connection test - 71a60cd, 48417df
-- S3: `Topic` model, seed (18 topics), `GET /api/topics`; server start par seed DB mein upsert hota hai (dobara chalane par duplicate nahi) - d73043f, f7a72d6
+- S3: `Topic` model, seed (18 topics), `GET /api/topics`; server start par seed DB mein upsert hota hai - d73043f, f7a72d6
 - S3 fix: Windows par Atlas SRV lookup (`querySrv ECONNREFUSED`) public DNS (8.8.8.8, 1.1.1.1) se theek kiya - 61f395b
-- `.env` git mein nahi (`.gitignore` line 51 `backend/.env`); `backend/.env.example` git mein hai
-- `npm test`: 3 suites, 7 tests pass
-- Asli check (S4): `npm start` se server chala, `/health` OK, `GET /api/topics` ne 18 topics diye
-- Response shape: `GET /api/topics` seedha array nahi, `{ topics: [...] }` deta hai (PowerShell mein `$r.topics.Count`)
-- Server tabhi chalta hai jab MongoDB connect + seed ho jaye; connect fail par `process.exit(1)`, port 3000 par kuch nahi sunta
-- Git tag: `phase-6-backend-basics`
+- `GET /api/topics` response `{ topics: [...] }` deta hai (PowerShell mein `$r.topics.Count`)
+- Git tag: `phase-6-backend-basics` (commit e4ed265)
+
+### Part 10 - Login: Signup, Login, JWT, /api/me (DONE)
+- Faisle: email + password, `bcryptjs` (pure JS), token 7 din (HS256)
+- S1: `src/auth/password.js` (`validatePassword` kam se kam 8 akshar, max 72 byte; `hashPassword`; `verifyPassword`), `src/models/user.js` (name, email lowercase+unique, passwordHash, createdAt, `toPublic()`), tests - d7b7da0
+- S2: `src/routes/auth.js` `POST /api/auth/signup` (400 galat data, 409 duplicate email, 201 user), auth `app.js` mein juda, kharab JSON par 400 - 98c30c1
+- S3: `src/auth/token.js` (`signToken`, `verifyToken`, `checkSecret`), `POST /api/auth/login`; signup aur login dono `{ user, token }` dete hain; galat email aur galat password dono par same 401 "Email ya password galat hai" (email na milne par bhi nakli hash se password check hota hai, taaki samay se pata na chale); `server.js` JWT_SECRET check karta hai - 5ef6987
+- S4: `src/auth/middleware.js` (`requireAuth`, `readBearerToken`), `GET /api/me` (Bearer token), `server.js` mein `findUserById` - b8ae9bb
+- `passwordHash` ya password kisi response mein nahi aata (tests mein check hota hai)
+- Asli database par live check hua: signup, duplicate 409, chhota password 400, login, galat login 401, `/api/me` bina token 401, sahi token par user, kharab token 401
+- Test users (`test1@example.com`, `test2@example.com`) Atlas se hata diye; `users` collection khali
+- Atlas IP list saaf ki: sirf abhi ka IP rakha
+- `npm test` (backend): 8 suites, 59 tests pass
+- Git tag: `phase-7-login`
 
 ### Git / Repo setup (DONE)
 - Repo: `satyamsharma-stacklab/abhay-app` (private)
@@ -76,25 +85,31 @@
 - [ ] `flutter build apk --debug` (debug APK banana)
 - [ ] Git tag `phase-0-ready` (Android run ke baad)
 - [ ] Home par "weak topics" abhi hamesha khali (tracking baad ke part mein)
-- [ ] Home par naam aur daily goal target abhi mock (`MockData.user`), login ke baad asli
+- [ ] Home par naam aur daily goal target abhi mock (`MockData.user`), Part 11 mein login ke baad asli
 - [ ] Profile/Home par mock data (contests) Part 11 mein API se replace hoga
-- [ ] Backend server abhi sirf local chalta hai; app abhi API use nahi karti (Part 11)
+- [ ] App abhi API use nahi karti (Part 11)
+- [ ] Backend abhi sirf local chalta hai (deploy baad mein, Part 15 ke aas-paas)
+- [ ] `npm audit` mein 19 moderate warnings (`npm audit fix --force` mat chalana)
+- [ ] `git add` par "LF will be replaced by CRLF" warning aati hai (Windows line-ending, harmless)
 
 ## Next
-- Part 10: Login (signup/login, JWT), details `docs/NEXT_TASK.md` mein
+- Part 11: Flutter app ko API se jodna (signup/login screens, token store, progress sync), details `docs/NEXT_TASK.md` mein
 
 ## Known notes
 - Project hamesha `C:\dev` mein rakho, OneDrive mein nahi.
 - `git add -A` mat karna: linux/macos/windows ki generated_plugin files auto-modify hoti hain. Specific paths add karo.
 - Checkpoint ke const constructor mein `options.length` use nahi ho sakta.
 - Package naam `abhay` hi rehna chahiye (tests `package:abhay/...` import karte hain).
-- Lambi lines paste mein kat sakti hain, code ki lines 80 char ke andar rakho.
+- Lambi lines paste mein kat sakti hain, code ki lines 80 char ke andar rakho. Lambi file (130+ lines) ek baar mein paste karne par kat sakti hai, do hisson mein paste  karo.
 - ListView ka page test karte waqt `tester.view.physicalSize = Size(800, 3000)` set karo.
-- Nayi file banane se pehle check karo ki path pehle se maujood to nahi; paste sahi tab (path dekh ke) mein karo, aur `Ctrl+S` zaroor.
+- Nayi file banane se pehle check karo ki path pehle se maujood to nahi; paste sahi tab (path dekh ke) mein karo, aur `Ctrl+S` zaroor. Save na hui file par `Get-Content` "does not exist" deta hai.
 - Generator mein har step par `List.of(a)` copy zaroori hai.
 - Test chalane se pehle check karo ki nayi test file mein code paste + save hua ho (khali file se count kam aata hai).
 - Nayi algorithm = ~15-line wrapper (`AlgorithmPage`) + `visualize_page.dart` mein `_readyIds` aur `_pageFor` dono.
 - Progress logic mein `DateTime.now()` seedha nahi, controller ko `now` inject hota hai.
-- Backend: `npm start` par "MongoDB connect nahi hua ... IP whitelist" aaye to Atlas > Network Access > IP Access List mein apna current IP add karo ("Add Current IP Address"). Ghar ke internet ka IP badalta rehta hai, to ye dobara ho sakta hai. "Allow access from anywhere" (0.0.0.0/0) mat chuno.
-- Backend: `.env` mein sirf `MONGODB_URI` hai; `PORT` set nahi, to server 3000 par chalta hai. `.env` ka content kabhi chat ya git mein mat bhejo.
-- Backend: Windows par `Invoke-RestMethod` se check karo; `/api/topics` ka response object hai (`$r.topics`).
+- Backend: `npm start` par "MongoDB connect nahi hua ... IP whitelist" aaye to Atlas > Network Access > IP Access List mein "Add Current IP Address" karo. Ghar ke internet ka IP badalta rehta hai, to ye dobara hoga. "Allow access from anywhere" (0.0.0.0/0) mat chuno.
+- Backend: `.env` mein `MONGODB_URI` aur `JWT_SECRET` hain. `.env` ka content kabhi chat ya git mein mat bhejo.
+- Backend: "Route nahi mila" ya "Unable to connect" aaye to pehle dekho port 3000 par purana `node` server to nahi chal raha: `Get-NetTCPConnection -LocalPort 3000 -State Listen`, phir `Stop-Process -Id <PID>` (naam `node` ho tabhi).
+- Backend: PowerShell mein lambi command ek hi line mein paste karo, warna beech mein toot jaati hai.
+- Backend tests mein Mongoose ka `validate()` use hota hai (`validateSync()` deprecated hai).
+- Atlas Data Explorer mein document hatane ka button "Remove document" (trash icon) hai.

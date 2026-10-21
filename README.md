@@ -8,7 +8,7 @@ Instead of reading theory, the student **watches an algorithm run step by step**
 
 ---
 
-## Current status (18-10-2026)
+## Current status (20-10-2026)
 
 | Part | What | Status |
 |---|---|---|
@@ -21,31 +21,35 @@ Instead of reading theory, the student **watches an algorithm run step by step**
 | 7 | Bubble / Selection / Insertion Sort | **Done** (tag `phase-4-sorting`) |
 | 8 | Progress, XP, streak, badges (local) = MVP-B | **Done** (tag `phase-5-progress`) |
 | 9 | Backend basics (Node, Express, MongoDB Atlas) | **Done** (tag `phase-6-backend-basics`) |
-| 10 | Login (signup/login, JWT) | **Next** |
-| 11-15 | API connect, practice, contests, release | Planned |
+| 10 | Login (signup, login, JWT, /api/me) | **Done** (tag `phase-7-login`) |
+| 11 | Connect the app to the API | **Next** |
+| 12-15 | Practice, contests, Visualize Mistake, release | Planned |
 
 ### What has been done
 - Light and dark theme (Material 3), routing, 5-tab bottom navigation: **Home, Roadmap, Visualize, Contest, Profile**.
 - All default text is Hinglish and lives in one file (`lib/core/constants/strings.dart`).
 - **Visualization engine** (pure Dart) and **widgets** (array, pointers, code panel, explanation, controls, player, checkpoint card).
 - **Five algorithms**: Linear Search, Binary Search, Bubble Sort, Selection Sort, Insertion Sort. Each has a generator, code lines, and exactly one checkpoint question. A generic `AlgorithmPage` runs them all.
-- **Real progress (local):** a correct checkpoint answer completes the topic and gives XP (+20 first time, +5 practice, 0 for wrong answers), streak, and badges. Saved with `shared_preferences`, so it survives app restarts. Home, Roadmap and Profile show it.
-- **Backend (in `backend/`):** Express server, MongoDB Atlas connection (Mongoose), `Topic` model, 18 topics seeded on server start, `GET /health` and `GET /api/topics`. The app does not use it yet (that is Part 11).
-- 195 Flutter tests and 7 backend tests, all passing.
-- Git tags: `phase-1-ui-ready`, `phase-2a-engine-core`, `phase-2b-viz-widgets`, `phase-3a-binary-search`, `phase-3b-linear-search`, `phase-4-sorting`, `phase-5-progress`, `phase-6-backend-basics`.
+- **Real progress (local):** a correct checkpoint answer completes the topic and gives XP (+20 first time, +5 practice, 0 for wrong answers), streak, and badges. Saved with `shared_preferences`, so it survives app restarts.
+- **Backend (in `backend/`):** Express server, MongoDB Atlas (Mongoose), 18 topics seeded on server start.
+- **Login (backend):** signup and login with email + password. Passwords are hashed with bcryptjs and never stored or sent back. Login returns a JWT (valid 7 days). `GET /api/me` returns the logged-in user. Wrong email and wrong password give the same 401 message.
+- The app does not use the backend yet (that is Part 11).
+- 195 Flutter tests and 59 backend tests, all passing.
+- Git tags: `phase-1-ui-ready`, `phase-2a-engine-core`, `phase-2b-viz-widgets`, `phase-3a-binary-search`, `phase-3b-linear-search`, `phase-4-sorting`, `phase-5-progress`, `phase-6-backend-basics`, `phase-7-login`.
 
 ---
 
 ## What to do next
 
-### Part 10 - Login (next)
-1. User model (Mongoose)
-2. Signup and login endpoints
-3. Password hashing and JWT
-4. Auth tests
+### Part 11 - Connect the app to the API (next)
+1. Flutter HTTP client and token storage
+2. Signup and login screens
+3. Progress synced to the server
+4. Replace mock data (name, daily goal, contests) with API data
+
+Tag when done: `phase-8-api-connect`.
 
 ### After that
-- **Part 11:** connecting the app to the API (progress synced to the server).
 - **Parts 12-14:** practice problems (CodeChef -> GeeksforGeeks -> LeetCode -> HackerRank), ABHAY contests, "Visualize Mistake".
 - **Part 15:** Android release build.
 
@@ -55,7 +59,7 @@ Full details: [`docs/ROADMAP.md`](docs/ROADMAP.md) | [`docs/NEXT_TASK.md`](docs/
 
 ## Tech stack
 - **App:** Flutter (Android-first), Dart
-- **Backend:** Node.js, Express, MongoDB Atlas (Mongoose), Jest + supertest
+- **Backend:** Node.js, Express 5, MongoDB Atlas (Mongoose), bcryptjs, jsonwebtoken, Jest + supertest
 - **Later:** Redis leaderboard, sandboxed code judge
 
 ## Project structure
@@ -74,9 +78,10 @@ Full details: [`docs/ROADMAP.md`](docs/ROADMAP.md) | [`docs/NEXT_TASK.md`](docs/
     docs/         progress, roadmap, next task, setup notes
     backend/
       src/        app.js, server.js, db.js, topics.seed.js
-        models/   topic.js
-        routes/   topics.js
-      tests/      app, db, topics tests
+        auth/     password.js, token.js, middleware.js
+        models/   topic.js, user.js
+        routes/   topics.js, auth.js
+      tests/      app, db, topics, password, user, auth, token, me tests
       .env.example
 
 ## Run locally (app)
@@ -93,15 +98,19 @@ The package name must stay `abhay` (tests import `package:abhay/...`). The folde
 
     cd backend
     npm install
-    copy .env.example .env    # then put your own MONGODB_URI in .env
+    copy .env.example .env    # then put your own values in .env
     npm test
     npm start                 # http://localhost:3000
 
+- `.env` needs `MONGODB_URI` and `JWT_SECRET` (a long random string, at least 32 characters). It is never committed.
 - `GET /health` returns `{ status: "ok", service: "abhay-backend" }`.
 - `GET /api/topics` returns `{ topics: [...] }` (18 topics).
-- `.env` holds secrets and is never committed (it is in `.gitignore`).
+- `POST /api/auth/signup` (name, email, password) returns `{ user, token }`.
+- `POST /api/auth/login` (email, password) returns `{ user, token }`.
+- `GET /api/me` needs the header `Authorization: Bearer <token>` and returns `{ user }`.
 - The server starts only after MongoDB connects. If it says it could not connect, add your current IP in Atlas under Network Access (IP Access List). Home internet IPs change, so this can happen again.
 - `src/db.js` sets public DNS (8.8.8.8, 1.1.1.1) because some Windows networks refuse the SRV lookup (`querySrv ECONNREFUSED`).
+- If you get "Route nahi mila" on a route that should exist, an old server may still be running on port 3000. Stop it and start again.
 
 ## Workflow
 One part at a time. After each part: analyze, test, commit, tag, push.
@@ -118,3 +127,4 @@ Do not use `git add -A` (Flutter auto-modifies generated plugin files in `linux/
 3. Practice problems link to the official source; problem statements are never copied.
 4. Contest scoring is server-authoritative. User code is never run in the normal API.
 5. Rewards are for understanding, not for watch time.
+6. Passwords and password hashes never appear in any response. Secrets live only in `.env`.
