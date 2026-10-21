@@ -1,11 +1,13 @@
 const express = require('express');
 const { topicsRouter } = require('./routes/topics');
 const { authRouter } = require('./routes/auth');
+const { requireAuth } = require('./auth/middleware');
 
 // Express app banata hai. Server start yahan nahi hota (test ke liye).
 // getTopics optional hai: diya gaya to /api/topics chalu ho jata hai.
-// auth optional hai: { findUserByEmail, createUser, rounds } diya gaya
-// to /api/auth chalu ho jata hai.
+// auth optional hai: { findUserByEmail, createUser, rounds, jwtSecret }
+// diya gaya to /api/auth chalu ho jata hai. Usme findUserById bhi ho
+// to /api/me (login zaroori) bhi chalu ho jata hai.
 function createApp({ getTopics, auth } = {}) {
   const app = express();
   app.use(express.json());
@@ -20,9 +22,16 @@ function createApp({ getTopics, auth } = {}) {
     app.use('/api/topics', topicsRouter(getTopics));
   }
 
-  // Auth API: signup (login baad mein). 404 handler se pehle jodna.
+  // Auth API: signup aur login. 404 handler se pehle jodna.
   if (auth) {
     app.use('/api/auth', authRouter(auth));
+  }
+
+  // /api/me: token se pata chalta hai "main kaun hoon".
+  if (auth && auth.findUserById) {
+    app.get('/api/me', requireAuth(auth), (req, res) => {
+      res.json({ user: req.user.toPublic() });
+    });
   }
 
   // Jo route nahi mila uska saaf jawab.

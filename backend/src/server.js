@@ -39,6 +39,14 @@ async function main() {
     jwtSecret: process.env.JWT_SECRET,
     findUserByEmail: (email) => User.findOne({ email }),
     createUser: (data) => User.create(data),
+    // Token se mila id kharab ho (galat format) to null, crash nahi.
+    findUserById: async (id) => {
+      try {
+        return await User.findById(id);
+      } catch (err) {
+        return null;
+      }
+    },
   };
   createApp({ getTopics, auth }).listen(PORT, () => {
     console.log(`ABHAY backend chal raha hai: http://localhost:${PORT}`);
